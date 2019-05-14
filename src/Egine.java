@@ -17,7 +17,7 @@ public class Egine {
 
     public static void main (String[] args) throws OWLOntologyCreationException, FileNotFoundException, OWLOntologyStorageException {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        File file = new File("C:\\Users\\User\\IdeaProjects\\rules\\src\\ont_PS.owl");
+        File file = new File("C:\\Users\\User\\IdeaProjects\\rules\\src\\ont_PS1.owl");
         OWLOntology ontology = manager.loadOntologyFromOntologyDocument(file);
         System.out.println("Load ontology: " + ontology);
 
