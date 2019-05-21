@@ -10,6 +10,7 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
+import org.semanticweb.owlapi.search.EntitySearcher;
 import org.semanticweb.owlapitools.builders.BuilderNamedIndividual;
 import org.swrlapi.core.SWRLAPIRule;
 import org.swrlapi.core.SWRLRuleEngine;
@@ -49,6 +50,7 @@ public class Egine {
         IRI docIRI =manager.getOntologyDocumentIRI(ontology);
         OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
        // OWLClass ptwClass = df.getOWLClass(IRI.create(ontology+"#PTW"));
+        OWLObjectProperty hasCN = df.getOWLObjectProperty(IRI.create(docIRI+"#hasCN"));
         String ptwClass = "PTW";
         for (OWLClass cls: ontology.getClassesInSignature()){
             //System.out.println(cls.getIRI().getShortForm());
@@ -59,8 +61,10 @@ public class Egine {
 
                 for (OWLNamedIndividual i : instances.getFlattened()) {
                     System.out.println(i.getIRI().getFragment());
-                    System.out.println(i.getSignature());
-                    for( OWLObjectProperty j: i.getObjectPropertiesInSignature()){
+                    System.out.println(i);
+                    //System.out.println( EntitySearcher.getObjectPropertyValues(i,hasCN, ontology ));
+                    EntitySearcher.getObjectPropertyValues(i,hasCN, ontology );
+                    for( OWLIndividual j: EntitySearcher.getObjectPropertyValues(i,hasCN, ontology ) ){
                        // if(j.getIRI().getShortForm().equals("hasCN")){
                         System.out.println("Property of Individuals  : ");
                            System.out.println(j);
