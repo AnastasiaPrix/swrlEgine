@@ -59,7 +59,7 @@ public class Egine {
 
                 for (OWLNamedIndividual i : instances.getFlattened()) {
                     System.out.println(i.getIRI().getFragment());
-                    System.out.println(i.getSignature().);
+                    System.out.println(i.getSignature());
                     for( OWLObjectProperty j: i.getObjectPropertiesInSignature()){
                        // if(j.getIRI().getShortForm().equals("hasCN")){
                         System.out.println("Property of Individuals  : ");
