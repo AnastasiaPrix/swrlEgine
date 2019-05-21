@@ -45,30 +45,30 @@ public class Egine {
         // SWRLAPIRule rule1 = ruleEngine.createSWRLRule("create", "AutoTransformers(?x)^isSwitchedBy(?x,?cbr)^swrlx:makeOWLThing(?pdif,?x)-> ofAutoTransformers(?pdif)^isProtectedBy(?x,?pdif)" );
         ruleEngine.infer();
 
-        OWLDataFactory df = manager.getOWLDataFactory();
-        IRI docIRI =manager.getOntologyDocumentIRI(ontology);
-        OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
-       // OWLClass ptwClass = df.getOWLClass(IRI.create(ontology+"#PTW"));
-        String ptwClass = "PTW";
-        for (OWLClass cls: ontology.getClassesInSignature()){
-            //System.out.println(cls.getIRI().getShortForm());
-            if(cls.getIRI().getShortForm().equals(ptwClass)){
-                OWLReasoner reasoner = reasonerFactory.createReasoner(ontology);
-                NodeSet<OWLNamedIndividual> instances =reasoner.getInstances(cls, true);
-                System.out.println("The Individuals of class : ");
-
-                for (OWLNamedIndividual i : instances.getFlattened()) {
-                    System.out.println(i.getIRI().getFragment());
-                    System.out.println(i.getSignature());
-                    for( OWLObjectProperty j: i.getObjectPropertiesInSignature()){
-                       // if(j.getIRI().getShortForm().equals("hasCN")){
-                        System.out.println("Property of Individuals  : ");
-                           System.out.println(j);
-                      //  }
-                    }
-                }
-            }
-        }
+//        OWLDataFactory df = manager.getOWLDataFactory();
+//        IRI docIRI =manager.getOntologyDocumentIRI(ontology);
+//        OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
+//       // OWLClass ptwClass = df.getOWLClass(IRI.create(ontology+"#PTW"));
+//        String ptwClass = "PTW";
+//        for (OWLClass cls: ontology.getClassesInSignature()){
+//            //System.out.println(cls.getIRI().getShortForm());
+//            if(cls.getIRI().getShortForm().equals(ptwClass)){
+//                OWLReasoner reasoner = reasonerFactory.createReasoner(ontology);
+//                NodeSet<OWLNamedIndividual> instances =reasoner.getInstances(cls, true);
+//                System.out.println("The Individuals of class : ");
+//
+//                for (OWLNamedIndividual i : instances.getFlattened()) {
+//                    System.out.println(i.getIRI().getFragment());
+//                    System.out.println(i.getSignature());
+//                    for( OWLObjectProperty j: i.getObjectPropertiesInSignature()){
+//                       // if(j.getIRI().getShortForm().equals("hasCN")){
+//                        System.out.println("Property of Individuals  : ");
+//                           System.out.println(j);
+//                      //  }
+//                    }
+//                }
+//            }
+//        }
 
 
 
@@ -89,31 +89,43 @@ public class Egine {
 
 
 
-//        StructuralReasonerFactory factory = new StructuralReasonerFactory();
-//        OWLReasoner reasoner =factory.createReasoner(ontology);
-//        reasoner.precomputeInferences(InferenceType.CLASS_ASSERTIONS,InferenceType.OBJECT_PROPERTY_ASSERTIONS);
-//        QueryEngine engine = QueryEngine.create(manager, reasoner, true);
+        StructuralReasonerFactory factory = new StructuralReasonerFactory();
+        OWLReasoner reasoner =factory.createReasoner(ontology);
+        reasoner.precomputeInferences(InferenceType.CLASS_ASSERTIONS,InferenceType.OBJECT_PROPERTY_ASSERTIONS);
+        QueryEngine engine = QueryEngine.create(manager, reasoner, true);
+        String x ="PREFIX ont: <http://www.semanticweb.org/anast/ontologies/2019/3/untitled-ontology-22#>\n" +
+                                "SELECT DISTINCT ?p WHERE {\n"  +
+                                "PropertyValue(?p, ont:hasCN, PIGGI/500/K_4/connvtyNode3)"  +
+                                "}";
+
 //        Query query = Query.create("PREFIX ont: <http://www.semanticweb.org/anast/ontologies/2019/3/untitled-ontology-22#>\n" +
-//                "SELECT DISTINCT ?con WHERE {\n" +
-//                "Type(?p, ont:PTW),\n" +
-//                "PropertyValue(?p, ont:hasCN, ?con)" +
+//                "SELECT DISTINCT ?p WHERE {\n" +
+//
+//                "PropertyValue(?p, ont:hasCN, x)" +
 //                "}");
-//       QueryResult result = engine.execute(query);
-//        System.out.println("Results:");
-//        String[] mas = result.toString().replace("?","#").split("#");
-//        System.out.print(result);
-//        System.out.println("-------------------------------------------------");
-//        System.out.println("Size of result set: " + result.size());
-//        ontology.getIndividualsInSignature();
-//
-//
-//        for (int i = 0; i< mas.length; i++){
-//            if (i%2 ==0){
-//            System.out.println(mas[i]);
-//            set1.add(mas[i]);
-//            // System.out.println("-------------------------------------------------");
-//        } }
-//
+//        "SELECT DISTINCT ?con WHERE {\n"  +
+//                "Type(?p, ont:PTW), \n " +
+//                "PropertyValue(?p, ont:hasCN, ?con)"  +
+//                "}"
+
+        Query query = Query.create(x);
+
+       QueryResult result = engine.execute(query);
+        System.out.println("Results:");
+        String[] mas = result.toString().replace("?","#").split("#");
+        System.out.print(result);
+        System.out.println("-------------------------------------------------");
+        System.out.println("Size of result set: " + result.size());
+        // ontology.getIndividualsInSignature();
+
+
+        for (int i = 0; i< mas.length; i++){
+            if (i%2 ==0){
+            System.out.println(mas[i]);
+            set1.add(mas[i]);
+            // System.out.println("-------------------------------------------------");
+        } }
+
 
 
 
