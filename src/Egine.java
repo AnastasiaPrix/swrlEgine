@@ -35,7 +35,7 @@ public class Egine {
     public static void main (String[] args) throws OWLOntologyCreationException, FileNotFoundException, OWLOntologyStorageException, SWRLBuiltInException, SWRLParseException, QueryParserException, QueryEngineException {
 
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        File file = new File("C:\\Users\\anast\\Desktop\\magistratura\\project\\ontologies\\ont_PS2_0.owl");
+        File file = new File("C:\\Users\\anast\\Desktop\\magistratura\\project\\ontologies\\ont_PS2_pig.owl");
         OWLOntology ontology = manager.loadOntologyFromOntologyDocument(file);
         System.out.println("Load ontology: " + ontology);
 
@@ -89,14 +89,14 @@ public class Egine {
 
 
 
-        StructuralReasonerFactory factory = new StructuralReasonerFactory();
-        OWLReasoner reasoner =factory.createReasoner(ontology);
-        reasoner.precomputeInferences(InferenceType.CLASS_ASSERTIONS,InferenceType.OBJECT_PROPERTY_ASSERTIONS);
-        QueryEngine engine = QueryEngine.create(manager, reasoner, true);
-        String x ="PREFIX ont: <http://www.semanticweb.org/anast/ontologies/2019/3/untitled-ontology-22#>\n" +
-                                "SELECT DISTINCT ?p WHERE {\n"  +
-                                "PropertyValue(?p, ont:hasCN, PIGGI/500/K_4/connvtyNode3)"  +
-                                "}";
+//        StructuralReasonerFactory factory = new StructuralReasonerFactory();
+//        OWLReasoner reasoner =factory.createReasoner(ontology);
+//        reasoner.precomputeInferences(InferenceType.CLASS_ASSERTIONS,InferenceType.OBJECT_PROPERTY_ASSERTIONS);
+//        QueryEngine engine = QueryEngine.create(manager, reasoner, true);
+//        String x ="PREFIX ont: <http://www.semanticweb.org/anast/ontologies/2019/3/untitled-ontology-22#>\n" +
+//                                "SELECT DISTINCT ?p WHERE {\n"  +
+//                                "PropertyValue(?p, ont:hasCN, PIGGI/500/K_4/connvtyNode3)"  +
+//                                "}";
 
 //        Query query = Query.create("PREFIX ont: <http://www.semanticweb.org/anast/ontologies/2019/3/untitled-ontology-22#>\n" +
 //                "SELECT DISTINCT ?p WHERE {\n" +
@@ -108,23 +108,23 @@ public class Egine {
 //                "PropertyValue(?p, ont:hasCN, ?con)"  +
 //                "}"
 
-        Query query = Query.create(x);
-
-       QueryResult result = engine.execute(query);
-        System.out.println("Results:");
-        String[] mas = result.toString().replace("?","#").split("#");
-        System.out.print(result);
-        System.out.println("-------------------------------------------------");
-        System.out.println("Size of result set: " + result.size());
-        // ontology.getIndividualsInSignature();
-
-
-        for (int i = 0; i< mas.length; i++){
-            if (i%2 ==0){
-            System.out.println(mas[i]);
-            set1.add(mas[i]);
-            // System.out.println("-------------------------------------------------");
-        } }
+//        Query query = Query.create(x);
+//
+//       QueryResult result = engine.execute(query);
+//        System.out.println("Results:");
+//        String[] mas = result.toString().replace("?","#").split("#");
+//        System.out.print(result);
+//        System.out.println("-------------------------------------------------");
+//        System.out.println("Size of result set: " + result.size());
+//        // ontology.getIndividualsInSignature();
+//
+//
+//        for (int i = 0; i< mas.length; i++){
+//            if (i%2 ==0){
+//            System.out.println(mas[i]);
+//            set1.add(mas[i]);
+//            // System.out.println("-------------------------------------------------");
+//        } }
 
 
 
@@ -142,7 +142,7 @@ public class Egine {
 
 
 
-        OutputStream owl = new FileOutputStream("C:\\Users\\anast\\Desktop\\ont_PS2.owl");
+        OutputStream owl = new FileOutputStream("C:\\Users\\anast\\Desktop\\ont_PS2_pig.owl");
         manager.saveOntology(ontology, owl);
 
 
