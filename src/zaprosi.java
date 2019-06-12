@@ -80,13 +80,10 @@ public class zaprosi {
         OWLClass pdifFLin = df.getOWLClass(IRI.create(ns+"PDIF_F"));
         OWLClass rs = df.getOWLClass(IRI.create(ns+"PS"));
         OWLClass nvchz = df.getOWLClass(IRI.create(ns+"NVCHZ"));
+        OWLClass pdis = df.getOWLClass(IRI.create(ns+"PDIS"));
+        OWLClass pntcn = df.getOWLClass(IRI.create(ns+"PNTCN"));
         OWLObjectProperty hasVoltage = df.getOWLObjectProperty(IRI.create(ns+"hasVoltageLevel"));
 
-        OWLClass volt6 = df.getOWLClass(IRI.create(ns+"6"));
-        OWLClass volt10 = df.getOWLClass(IRI.create(ns+"10"));
-        OWLClass volt15 = df.getOWLClass(IRI.create(ns+"15"));
-        OWLClass volt20 = df.getOWLClass(IRI.create(ns+"20"));
-        OWLClass volt35 = df.getOWLClass(IRI.create(ns+"35"));
         OWLClass volt110 = df.getOWLClass(IRI.create(ns+"110"));
         OWLClass volt220 = df.getOWLClass(IRI.create(ns+"220"));
         OWLClass volt330 = df.getOWLClass(IRI.create(ns+"330"));
@@ -98,19 +95,26 @@ public class zaprosi {
 
         ///////////////linii/////////////////
         List<OWLClass> protectionLines1 = new ArrayList<>();
-        Set<OWLClass> voltageLines1 = new HashSet<>();
-        voltageLines1.add(volt750);
-        voltageLines1.add(volt500);
-        voltageLines1.add(volt330);
         protectionLines1.add(pdifLin);
         protectionLines1.add(pdifFLin);
+
+        List<OWLClass> kczRsClass = new ArrayList<>();
+        kczRsClass.add(rs);
+        kczRsClass.add(pdis);
+        kczRsClass.add(pntcn);
+
+        List<OWLClass> kczClass = new ArrayList<>();
+        kczClass.add(pdis);
+        kczClass.add(pntcn);
 
 
 
         List<OWLClass> protectionLines = new ArrayList<>();
-        Set<OWLClass> voltageLines = new HashSet<>();
-        voltageLines.add(volt220);
-        voltageLines.add(volt110);
+        protectionLines.add(pdifLin);
+        protectionLines.add(pdifFLin);
+        protectionLines.add(nvchz);
+
+        List<OWLClass> protectionLines3 = new ArrayList<>();
         protectionLines.add(pdifLin);
         protectionLines.add(pdifFLin);
         protectionLines.add(nvchz);
@@ -121,46 +125,47 @@ public class zaprosi {
 
         Set<OWLNamedIndividual> indLines = getIndividualByClass.getIndividualofClass(linesClass, reasoner);
         int variant = (int) (Math.random()*2);
+        int variant3 = (int) (Math.random()*3);
         for (OWLNamedIndividual i: indLines){
             Collection<OWLIndividual> indVot = getIndividualFromProperty.getIndivid(i,ontology,hasVoltage);
+            Collection<OWLLiteral> channel = getValuesFromProperty.getValues(i,ontology, hasChanel);
             for (OWLIndividual j : indVot){
                 Collection<OWLClassExpression> gg = EntitySearcher.getTypes(j, ontology);
                 if (gg.contains(volt750) || gg.contains(volt500) || gg.contains(volt330) ){
-                    Collection<OWLLiteral> channel = getValuesFromProperty.getValues(i,ontology, hasChanel);
-                    System.out.println(channel+ "!!!!!!!!!!!!!!!");
+                  CreateComplectOfProtection.CreateComplect(i,ontology,ns,kczClass,df,manager);
                     if ( !channel.isEmpty()) {
                         for (OWLLiteral v : channel) {
-                           // System.out.println("name is " + v.parseInteger());
                             if (v.parseInteger() == 0) {
-
+                                CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines1,df,manager,0);
+                                break;
                             } else if (v.parseInteger() == 1) {
-
+                                CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines1,df,manager,1);
+                                break;
                             }
                         }
-                    }
-                          else {
-                              String[] linesName1 = i.toString().split("#");
-                              String[] linesName = linesName1[1].split(">");
-                              String h = protectionLines1.get(0).getIRI().getShortForm().toString();
-                              String indName = linesName[0].concat(h);
-
-
-                              OWLIndividual ind = df.getOWLNamedIndividual(IRI.create(ns+indName));
-                              OWLAxiom protLineBase = df.getOWLClassAssertionAxiom(protectionLines1.get(variant), ind);
-                              AddAxiom prot= new AddAxiom(ontology,protLineBase);
-                              manager.applyChange(prot);
-
+                    } else {
+                              CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines1,df,manager,variant);
                           }
                       }
-//                    if (getIndividualFromProperty.getIndivid(i, ontology, has))
-//                    OWLAxiom classShin = df.getOWLClassAssertionAxiom(oshClass, indShin);
-//                    AddAxiom shinAxiom = new AddAxiom(ontology,classShin);
-//                    manager.applyChange(shinAxiom);
-
 
 
                 else if (gg.contains(volt220) || gg.contains(volt110)){
-                    System.out.println(protectionLines.size()+ "prot");
+                    if ( !channel.isEmpty()) {
+                        for (OWLLiteral v : channel) {
+                            if (v.parseInteger() == 0) {
+                                CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines,df,manager,0);
+                                break;
+                            } else if (v.parseInteger() == 1) {
+                                int variant2 = (int) (Math.random()*2+1);
+                                CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines,df,manager,variant2);
+                                break;
+                            }
+                        }
+                    } else {
+                        CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines,df,manager,variant3);
+                    }
+
+
 
                 }
 
