@@ -18,7 +18,8 @@ public class zaprosi {
 
     public static void main (String[] args) throws OWLOntologyCreationException, FileNotFoundException, OWLOntologyStorageException {
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        File file = new File("C:\\Users\\anast\\Desktop\\ont_PS2_pig.owl");
+       // File file = new File("C:\\Users\\anast\\Desktop\\ont_PS2_pig.owl");
+        File file = new File("C:\\Users\\anast\\Desktop\\ont_PS3_pig.owl");
         OWLOntology ontology = manager.loadOntologyFromOntologyDocument(file);
         String ns = "http://www.semanticweb.org/anast/ontologies/2019/3/untitled-ontology-22#";
         OWLIndividual trans = null;
@@ -78,25 +79,30 @@ public class zaprosi {
         OWLClass linesClass = df.getOWLClass(IRI.create(ns+"Lines"));
         OWLClass pdifLin = df.getOWLClass(IRI.create(ns+"PDIF_L"));
         OWLClass pdifFLin = df.getOWLClass(IRI.create(ns+"PDIF_F"));
-        OWLClass rs = df.getOWLClass(IRI.create(ns+"PS"));
+        OWLClass rs = df.getOWLClass(IRI.create(ns+"RS"));
         OWLClass nvchz = df.getOWLClass(IRI.create(ns+"NVCHZ"));
         OWLClass pdis = df.getOWLClass(IRI.create(ns+"PDIS"));
         OWLClass pntcn = df.getOWLClass(IRI.create(ns+"PNTCN"));
+        OWLClass ptpL = df.getOWLClass(IRI.create(ns+"PTP_L"));
+        OWLClass pto = df.getOWLClass(IRI.create(ns+"PTO"));
+        OWLClass ptm = df.getOWLClass(IRI.create(ns+"PTM"));
+        OWLClass pozz = df.getOWLClass(IRI.create(ns+"POZZ"));
+        OWLClass pdz = df.getOWLClass(IRI.create(ns+"PDZ"));
         OWLObjectProperty hasVoltage = df.getOWLObjectProperty(IRI.create(ns+"hasVoltageLevel"));
 
-        OWLClass volt110 = df.getOWLClass(IRI.create(ns+"110"));
-        OWLClass volt220 = df.getOWLClass(IRI.create(ns+"220"));
-        OWLClass volt330 = df.getOWLClass(IRI.create(ns+"330"));
-        OWLClass volt500 = df.getOWLClass(IRI.create(ns+"500"));
-        OWLClass volt750 = df.getOWLClass(IRI.create(ns+"750"));
-       // OWLDataProperty hasName = df.getOWLDataProperty(IRI.create(ns+"hasName"));
-
         OWLDataProperty hasChanel = df.getOWLDataProperty(IRI.create(ns+"hasChannel"));
-
+        OWLDataProperty base = df.getOWLDataProperty(IRI.create(ns+"base"));
+        OWLDataProperty setOf = df.getOWLDataProperty(IRI.create(ns+"setOfProtection"));
         ///////////////linii/////////////////
-        List<OWLClass> protectionLines1 = new ArrayList<>();
-        protectionLines1.add(pdifLin);
-        protectionLines1.add(pdifFLin);
+
+        Map<Integer,List<OWLClass>> protectionOfLines1 = new HashMap<>();
+
+//        List<OWLClass> protectionLines0_1 = new ArrayList<>();
+//        protectionLines0_1.add(pdifLin);
+//        protectionLines0_1.add(rs);
+//        protectionLines0_1.add(pdis);
+//        protectionLines0_1.add(pntcn);
+
 
         List<OWLClass> kczRsClass = new ArrayList<>();
         kczRsClass.add(rs);
@@ -107,70 +113,102 @@ public class zaprosi {
         kczClass.add(pdis);
         kczClass.add(pntcn);
 
-
-
         List<OWLClass> protectionLines = new ArrayList<>();
         protectionLines.add(pdifLin);
         protectionLines.add(pdifFLin);
         protectionLines.add(nvchz);
 
-        List<OWLClass> protectionLines3 = new ArrayList<>();
-        protectionLines.add(pdifLin);
-        protectionLines.add(pdifFLin);
-        protectionLines.add(nvchz);
+        List<OWLClass> protectionLines2 = new ArrayList<>();
+        protectionLines2.add(pto);
+        protectionLines2.add(ptm);
+        protectionLines2.add(pozz);
+        protectionLines2.add(pdz);
+        protectionLines2.add(ptpL);
+
+        protectionOfLines1.put(0,kczRsClass);
+        protectionOfLines1.put(1,kczClass);
+        protectionOfLines1.put(2,protectionLines2);
+
+
 
 
 
 
 
         Set<OWLNamedIndividual> indLines = getIndividualByClass.getIndividualofClass(linesClass, reasoner);
-        int variant = (int) (Math.random()*2);
-        int variant3 = (int) (Math.random()*3);
+        int variant = (int) (Math.random()*2+1);
+        int variant3 = (int) (Math.random()*2);
         for (OWLNamedIndividual i: indLines){
-            Collection<OWLIndividual> indVot = getIndividualFromProperty.getIndivid(i,ontology,hasVoltage);
-            Collection<OWLLiteral> channel = getValuesFromProperty.getValues(i,ontology, hasChanel);
-            for (OWLIndividual j : indVot){
-                Collection<OWLClassExpression> gg = EntitySearcher.getTypes(j, ontology);
-                if (gg.contains(volt750) || gg.contains(volt500) || gg.contains(volt330) ){
-                  CreateComplectOfProtection.CreateComplect(i,ontology,ns,kczClass,df,manager);
-                    if ( !channel.isEmpty()) {
-                        for (OWLLiteral v : channel) {
-                            if (v.parseInteger() == 0) {
-                                CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines1,df,manager,0);
-                                break;
-                            } else if (v.parseInteger() == 1) {
-                                CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines1,df,manager,1);
-                                break;
-                            }
-                        }
-                    } else {
-                              CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines1,df,manager,variant);
-                          }
-                      }
-
-
-                else if (gg.contains(volt220) || gg.contains(volt110)){
-                    if ( !channel.isEmpty()) {
-                        for (OWLLiteral v : channel) {
-                            if (v.parseInteger() == 0) {
-                                CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines,df,manager,0);
-                                break;
-                            } else if (v.parseInteger() == 1) {
-                                int variant2 = (int) (Math.random()*2+1);
-                                CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines,df,manager,variant2);
-                                break;
-                            }
-                        }
-                    } else {
-                        CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines,df,manager,variant3);
+           Collection<OWLLiteral> setBase = getValuesFromProperty.getValues(i,ontology,base);
+            Collection<OWLLiteral> setVar = getValuesFromProperty.getValues(i,ontology,setOf);
+               for (OWLLiteral n : setBase) {
+                   int baseNumber = n.parseInteger();
+                   List<OWLClass> protectVar = protectionOfLines1.get(baseNumber);
+                   CreateComplectOfProtection.CreateComplect(i, ontology, ns, protectVar, df, manager);
+               }
+              if(!setVar.isEmpty()) {
+                for (OWLLiteral n : setVar) {
+                    int varNumber = n.parseInteger();
+                    if (varNumber!=2) {
+                        CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines,df,manager,varNumber);
                     }
-
-
-
+                    else {
+                        CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines,df,manager,variant);
+                    }
                 }
-
-                else{}
             }
+              else {
+                  CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines,df,manager,variant3);
+              }
+
+
+
+
+//            Collection<OWLIndividual> indVot = getIndividualFromProperty.getIndivid(i,ontology,hasVoltage);
+//            Collection<OWLLiteral> channel = getValuesFromProperty.getValues(i,ontology, hasChanel);
+//            for (OWLIndividual j : indVot){
+//                Collection<OWLClassExpression> gg = EntitySearcher.getTypes(j, ontology);
+//                if (gg.contains(volt750) || gg.contains(volt500) || gg.contains(volt330) ){
+//                  CreateComplectOfProtection.CreateComplect(i,ontology,ns,kczClass,df,manager);
+//                    if ( !channel.isEmpty()) {
+//                        for (OWLLiteral v : channel) {
+//                            if (v.parseInteger() == 0) {
+//                                CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines1,df,manager,0);
+//                                break;
+//                            } else if (v.parseInteger() == 1) {
+//                                CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines1,df,manager,1);
+//                                break;
+//                            }
+//                        }
+//                    } else {
+//                              CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines1,df,manager,variant);
+//                          }
+//                      }
+//
+//
+//                else if (gg.contains(volt220) || gg.contains(volt110)){
+//                    if ( !channel.isEmpty()) {
+//                        for (OWLLiteral v : channel) {
+//                            if (v.parseInteger() == 0) {
+//                                CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines,df,manager,0);
+//                                break;
+//                            } else if (v.parseInteger() == 1) {
+//                                int variant2 = (int) (Math.random()*2+1);
+//                                CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines,df,manager,variant2);
+//                                break;
+//                            }
+//                        }
+//                    } else {
+//                        CreateProtectionIndivid.CreateProtection(i,ontology,ns,protectionLines,df,manager,variant3);
+//                    }
+//
+//
+//
+//                }
+//
+//                else{}
+//            }
+
         }
 
 
