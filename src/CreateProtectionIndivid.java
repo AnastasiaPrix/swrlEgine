@@ -1,7 +1,4 @@
 import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.search.EntitySearcher;
-
-import java.util.Collection;
 import java.util.List;
 
 public class CreateProtectionIndivid {
@@ -14,21 +11,11 @@ public class CreateProtectionIndivid {
         String indName = linesName[0].concat(h);
 
         OWLObjectProperty isProtectedBy = df.getOWLObjectProperty(IRI.create(ns+"isProtectedBy"));
+        OWLObjectProperty protect = df.getOWLObjectProperty(IRI.create(ns+"protect"));
 
-//    создание индивида
-        OWLIndividual indProtection = df.getOWLNamedIndividual(IRI.create(ns+indName));
-        // создание аксиомы для для задания класса индивида
-        OWLAxiom protLineBase = df.getOWLClassAssertionAxiom(protection.get(variant), indProtection);
-        // добавление аксиомы в онтологию
-        AddAxiom prot= new AddAxiom(ont,protLineBase);
-        //сохранение изменений
-        manager.applyChange(prot);
-
-
-      OWLAxiom prortected = df.getOWLObjectPropertyAssertionAxiom(isProtectedBy,ind,indProtection);
-    // добавление аксиомы в онтологию
-       AddAxiom protBy= new AddAxiom(ont,prortected);
-    //сохранение изменений
-        manager.applyChange(protBy);
+        OWLIndividual indProtection = df.getOWLNamedIndividual(IRI.create(ns + indName));
+        AxiomsAdding.AddingClass(ont,manager,df,indProtection,protection.get(variant));
+        AxiomsAdding.adding(ont,manager,df,ind,indProtection,isProtectedBy);
+        AxiomsAdding.adding(ont,manager,df,indProtection,ind,protect);
 }
 }
