@@ -24,6 +24,8 @@ public class zaprosi {
 
     public static void main(String[] args) throws OWLOntologyCreationException, FileNotFoundException, OWLOntologyStorageException, SWRLBuiltInException, SWRLParseException {
 
+        TEST.Start();
+
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
         File file = new File("C:\\Users\\anast\\Desktop\\magistratura\\project\\ontologies\\ont_PS3_pig.owl");
         OWLOntology ontology = manager.loadOntologyFromOntologyDocument(file);
@@ -39,10 +41,7 @@ public class zaprosi {
         SWRLAPIRule rule04 = ruleEngine.createSWRLRule("set2" ,"Lines(?p) ^ base(?p, 1) ^ hasChannel(?p,1)  -> setOfProtection(?p, 2)");
 
         ruleEngine.infer();
-//        OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-//        // File file = new File("C:\\Users\\anast\\Desktop\\ont_PS2_pig.owl");
-//        File file = new File("C:\\Users\\anast\\Desktop\\ont_PS3_pig.owl");
-//        OWLOntology ontology = manager.loadOntologyFromOntologyDocument(file);
+
         String ns = "http://www.semanticweb.org/anast/ontologies/2019/3/untitled-ontology-22#";
         OWLIndividual trans = null;
         Set<OWLAxiom> axiom = new HashSet<>();
@@ -182,10 +181,6 @@ public class zaprosi {
         OWLClass PVP = df.getOWLClass(IRI.create(ns+"PVP"));
 
         /////////////////ConductingEquipment////////////////////////////
-//        OWLClass fiderB = df.getOWLClass(IRI.create(ns+"fiderBreaker"));
-//        OWLClass selectB = df.getOWLClass(IRI.create(ns+"selectionalizingBreaker"));
-//        OWLClass busBr = df.getOWLClass(IRI.create(ns+"BusBreaker"));
-//        OWLClass byBr = df.getOWLClass(IRI.create(ns+"bypassBreaker"));
         OWLClass cbrClass = df.getOWLClass(IRI.create(ns+"XCBR"));
         OWLClass PDIS_C = df.getOWLClass(IRI.create(ns+"PDIS_C"));
         OWLClass PDZ_C = df.getOWLClass(IRI.create(ns+"PDZ_C"));
