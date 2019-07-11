@@ -48,4 +48,25 @@ public class lookFor {
             }
         }
     }
+    public static void getTT_TV_CBR2(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df, OWLIndividual basInd, boolean f1, List<OWLIndividual> listTCTR, List<OWLIndividual> listTVTR, List<OWLIndividual> listCBR ){
+        System.out.println("Welcome to get!!!"+ ind);
+        OWLClassExpression tctr_e = df.getOWLClass(IRI.create(ns+"TCTR"));
+        f = isItWhatILookingFor.foundBreaker2(ind,ont,ns,df,listTCTR,listTVTR,listCBR);
+        if (f) {
+             System.out.println("Found tctr ");
+           // cnWithCBR.add(ind);
+        }
+        else if(isSomeProtected.IsProtected(ind, ont, ns, df) && f1){
+            System.out.println("found protected Eqipment with" + ind );
+        }
+        else{
+            f1 =true;
+            for (OWLIndividual i: connectionWith.hasConnection(ind,ont,ns,df)) {
+                System.out.println("----------------");
+                if( !i.equals(basInd)){
+                    getTT_TV_CBR2(i, ont, ns, df, ind, f1, listTCTR, listTVTR, listCBR);
+                }
+            }
+        }
+    }
 }

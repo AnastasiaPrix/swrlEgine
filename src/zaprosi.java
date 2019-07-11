@@ -43,6 +43,7 @@ public class zaprosi {
         OWLIndividual trans = null;
         OWLDataFactory df = manager.getOWLDataFactory();
         OWLClass linesClass = df.getOWLClass(IRI.create(ns + "Lines"));
+        OWLClass CBR = df.getOWLClass(IRI.create(ns+"XCBR"));
         OWLClassExpression CBR_E = df.getOWLClass(IRI.create(ns+"XCBR"));
         OWLClassExpression TCTR_E = df.getOWLClass(IRI.create(ns+"TCTR"));
         OWLClassExpression TVTR_E = df.getOWLClass(IRI.create(ns+"TVTR"));
@@ -56,12 +57,16 @@ public class zaprosi {
         OWLObjectProperty hasBus = df.getOWLObjectProperty(IRI.create(ns + "hasShortBus"));
         OWLObjectProperty hasVoltageLevel = df.getOWLObjectProperty(IRI.create(ns + "hasVoltageLevel"));
         OWLObjectProperty isSwitchedBy = df.getOWLObjectProperty(IRI.create(ns + "isSwitchedBy"));
+        OWLDataProperty busType = df.getOWLDataProperty(IRI.create(ns+"busType"));
         OWLDataProperty hasBus_ = df.getOWLDataProperty(IRI.create(ns+"hasBus"));
+        OWLClass busClass = df.getOWLClass(IRI.create(ns+"Bus"));
         OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
         OWLReasoner reasoner = reasonerFactory.createReasoner(ontology);
         String ptwClass = "PTW";
         OWLClass PTW = df.getOWLClass(IRI.create(ns + "PTW"));
         OWLClass oshClass = df.getOWLClass(IRI.create(ns + "ShortBus"));
+
+        ////////////////////////////////////TT,TV and CBR for Transformers/////////////////////////////////////////
         Set<OWLNamedIndividual> indPTW = getIndividualByClass.getIndividualofClass(PTW, reasoner);
         for (OWLNamedIndividual i : indPTW) {
             int k = 0;
@@ -88,8 +93,10 @@ public class zaprosi {
                 AxiomsAdding.addingSeveral(ontology,manager,df,trans,tctrOfT,hasTCTR);
                 AxiomsAdding.addingSeveral(ontology,manager,df,trans,tvtrOfT,hasTVTR);
                 AxiomsAdding.addingSeveral(ontology,manager,df,trans,cbrOfT, isSwitchedBy);
+                k++;
             }
         }
+        //////////////////////////////////////TT, TV and CBR for Lines///////////////////////////////////////////
         Set<OWLNamedIndividual> indLines = getIndividualByClass.getIndividualofClass(linesClass, reasoner);
         for (OWLNamedIndividual l: indLines){
             int k = 0;
@@ -112,8 +119,40 @@ public class zaprosi {
                     else{
                         CreateShortBus.CreateFalseBus(ontology,manager,df,ns,i,l,v,nodesLines, k);
                     }
+                    k++;
                 }
             }
+        }
+        ///////////////////////////////////TT for CBR///////////////////////////////////////////////////////////////////////
+        Set<OWLNamedIndividual> indCbr = getIndividualByClass.getIndividualofClass(CBR, reasoner);
+        for (OWLNamedIndividual c: indCbr){
+            Collection<OWLIndividual> indCnC = getIndividualFromProperty.getIndivid(c, ontology, hasCN);
+            for (OWLIndividual i: indCnC){
+                List<OWLIndividual> tctrOfC= new ArrayList<>();
+                lookFor.getSomething(i,ontology,ns,df,null,false,TCTR_E,tctrOfC);
+                AxiomsAdding.addingSeveral(ontology,manager,df,c,tctrOfC,hasTCTR);
+            }
+        }
+        ///////////////////////////////TT, TV and cbr for Bus///////////////////////////////////////////////////////////
+        Set<OWLNamedIndividual> indBus =getIndividualByClass.getIndividualofClass(busClass,reasoner);
+        for (OWLNamedIndividual b: indBus){
+            Collection<OWLIndividual> indCnB = getIndividualFromProperty.getIndivid(b,ontology,hasCN);
+            Collection<OWLLiteral> typeB = getValuesFromProperty.getValues(b,ontology,busType);
+            List<OWLIndividual> tctrOfB = new ArrayList<>();
+            List<OWLIndividual> tvtrOfB = new ArrayList<>();
+            List<OWLIndividual> cbrOfB = new ArrayList<>();
+            Collection<OWLIndividual> nodesBus = new HashSet<>();
+                    for (OWLIndividual j : indCnB) {
+                        if (typeB.isEmpty()){
+                            lookFor.getTT_TV_CBR(j, ontology, ns, df, null, nodesBus, false, tctrOfB, tvtrOfB, cbrOfB);
+                        }
+                        else {
+                            lookFor.getTT_TV_CBR2(j, ontology, ns, df, null,false, tctrOfB, tvtrOfB, cbrOfB);
+                        }
+                        AxiomsAdding.addingSeveral(ontology, manager, df, b, tctrOfB, hasTCTR);
+                        AxiomsAdding.addingSeveral(ontology, manager, df, b, tvtrOfB, hasTVTR);
+                        AxiomsAdding.addingSeveral(ontology, manager, df, b, cbrOfB, isSwitchedBy);
+                    }
         }
 
         SWRLAPIRule rule6 = ruleEngine.createSWRLRule("CN","ShortBus(?b) ^ hasVoltageLevel(?b,?v) ^ voltageType(?v,?vv) ^ swrlb:equal(?vv,2) -> voltageType(?b, 2)");
@@ -170,7 +209,6 @@ public class zaprosi {
         OWLClass PTO_T = df.getOWLClass(IRI.create(ns+"PTO_T"));
         OWLClass PTP = df.getOWLClass(IRI.create(ns+"PTP"));
         ////////////////////////Bus/////////////////////////////////////////
-        OWLClass busClass = df.getOWLClass((IRI.create(ns+"Bus")));
         OWLClass PDIF_B = df.getOWLClass(IRI.create(ns+"PDIF_B"));
         OWLClass PDZ_B = df.getOWLClass(IRI.create(ns+"PDZ_B"));
         OWLClass PLOG = df.getOWLClass(IRI.create(ns+"PLOG"));
@@ -450,7 +488,7 @@ public class zaprosi {
 
             }
         }
-        Set<OWLNamedIndividual> indBus = getIndividualByClass.getIndividualofClass(busClass, reasoner);
+       // Set<OWLNamedIndividual> indBus = getIndividualByClass.getIndividualofClass(busClass, reasoner);
         for (OWLNamedIndividual i: indBus){
             Collection<OWLLiteral>  baseB = getValuesFromProperty.getValues(i,ontology,base);
             if (baseB.isEmpty()){
