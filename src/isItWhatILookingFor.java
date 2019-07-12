@@ -32,13 +32,13 @@ public class isItWhatILookingFor {
             Collection<OWLClassExpression> gg = EntitySearcher.getTypes(i, ont);
             if (gg.contains(CBR)) {
                 x = true;
-                listCBR.add(i);
+                if (!listCBR.contains(i)){
+            listCBR.add(i);}
             }
             else if(gg.contains(TCTR) && !listTCTR.contains(i)){
                 listTCTR.add(i);
-              //  System.out.println("found TCTR "+ i);
             }
-            else if(gg.contains(TVTR)){
+            else if(gg.contains(TVTR) && !listTVTR.contains(i)){
                 listTVTR.add(i);
             }
         }
@@ -55,7 +55,8 @@ public class isItWhatILookingFor {
             Collection<OWLClassExpression> gg = EntitySearcher.getTypes(i, ont);
             if (gg.contains(TCTR)) {
                 x = true;
-                listTCTR.add(i);
+                if (!listTCTR.contains(i)){
+                listTCTR.add(i);}
             }
             else if(gg.contains(CBR) && !listCBR.contains(i)){
                 listCBR.add(i);

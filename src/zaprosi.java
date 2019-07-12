@@ -138,15 +138,13 @@ public class zaprosi {
         for (OWLNamedIndividual b: indBus){
             Collection<OWLIndividual> indCnB = getIndividualFromProperty.getIndivid(b,ontology,hasCN);
             Collection<OWLLiteral> typeB = getValuesFromProperty.getValues(b,ontology,busType);
-            List<OWLIndividual> tctrOfB = new ArrayList<>();
-            List<OWLIndividual> tvtrOfB = new ArrayList<>();
-            List<OWLIndividual> cbrOfB = new ArrayList<>();
-            Collection<OWLIndividual> nodesBus = new HashSet<>();
                     for (OWLIndividual j : indCnB) {
-                        if (typeB.isEmpty()){
-                            lookFor.getTT_TV_CBR(j, ontology, ns, df, null, nodesBus, false, tctrOfB, tvtrOfB, cbrOfB);
-                        }
-                        else {
+                        List<OWLIndividual> tctrOfB = new ArrayList<>();
+                        List<OWLIndividual> tvtrOfB = new ArrayList<>();
+                        List<OWLIndividual> cbrOfB = new ArrayList<>();
+                        Collection<OWLIndividual> nodesBus = new HashSet<>();
+                        lookFor.getTT_TV_CBR(j, ontology, ns, df, null, nodesBus, false, tctrOfB, tvtrOfB, cbrOfB);
+                        if (!typeB.isEmpty()){
                             lookFor.getTT_TV_CBR2(j, ontology, ns, df, null,false, tctrOfB, tvtrOfB, cbrOfB);
                         }
                         AxiomsAdding.addingSeveral(ontology, manager, df, b, tctrOfB, hasTCTR);

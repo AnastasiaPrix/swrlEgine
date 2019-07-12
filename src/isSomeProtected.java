@@ -10,7 +10,7 @@ public class isSomeProtected {
        // OWLIndividual x = null;
         boolean f = false;
         OWLObjectProperty cnOf = df.getOWLObjectProperty(IRI.create(ns+"cnOf"));
-       // OWLClassExpression CBR = df.getOWLClass(IRI.create(ns+"XCBR"));
+        OWLClassExpression CBR = df.getOWLClass(IRI.create(ns+"XCBR"));
         OWLClassExpression XSWI = df.getOWLClass(IRI.create(ns+"XSWI"));
         OWLClassExpression TCTR = df.getOWLClass(IRI.create(ns+"TCTR"));
         OWLClassExpression TVTR = df.getOWLClass(IRI.create(ns+"TVTR"));
@@ -19,7 +19,7 @@ public class isSomeProtected {
         //  Collection<OWLIndividual> nodes = EntitySearcher.getObjectPropertyValues(ind, cnOf, ont);
         for( OWLIndividual i: EntitySearcher.getObjectPropertyValues(ind, cnOf, ont)) {
             Collection<OWLClassExpression> y =  EntitySearcher.getTypes(i, ont);
-            if (!(y.contains(XSWI)||y.contains(TCTR)||y.contains(TVTR)||y.contains(ZREA)|| y.contains(ZCAB))) {
+            if (!(y.contains(XSWI)||y.contains(TCTR)||y.contains(TVTR)||y.contains(ZREA)|| y.contains(ZCAB)||y.contains(CBR))) {
                 f = true; }
         }
         return f;}
