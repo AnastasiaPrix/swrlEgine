@@ -41,7 +41,7 @@ public class TEST {
 
 
 
-        File scdFile = new File("C:\\Users\\anast\\Desktop\\PIGv9.scd");
+        File scdFile = new File("C:\\Users\\anast\\Desktop\\PIGv10.scd");
 
         SCL tsub = null;
         try {

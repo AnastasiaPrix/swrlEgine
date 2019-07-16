@@ -9,14 +9,10 @@ public class isItWhatILookingFor {
    // public  static OWLIndividual x = null;
     public static OWLIndividual hasNecessary(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df, OWLClassExpression clas, List<OWLIndividual> clasCollection){
         OWLObjectProperty cnOf = df.getOWLObjectProperty(IRI.create(ns+"cnOf"));
-       // OWLClassExpression CBR = df.getOWLClass(IRI.create(ns+"XCBR"));
         OWLIndividual x = null;
         for( OWLIndividual i: EntitySearcher.getObjectPropertyValues(ind, cnOf, ont)) {
             Collection<OWLClassExpression> gg = EntitySearcher.getTypes(i, ont);
-//            if (gg.contains(CBR)) {
-//                x = i;
-//            }
-            if(gg.contains(clas)){
+            if(gg.contains(clas) && !clasCollection.contains(i) ){
                 clasCollection.add(i);
                 x = i;
             }
@@ -45,6 +41,19 @@ public class isItWhatILookingFor {
 
         return x;
     }
+    public static OWLIndividual foundConnected(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df,  OWLClassExpression clas, List<OWLIndividual> listCBR, OWLIndividual base ){
+        OWLObjectProperty cnOf = df.getOWLObjectProperty(IRI.create(ns+"cnOf"));
+        OWLIndividual x = null;
+        for( OWLIndividual i: EntitySearcher.getObjectPropertyValues(ind, cnOf, ont)) {
+            Collection<OWLClassExpression> gg = EntitySearcher.getTypes(i, ont);
+            if (gg.contains(clas)&& !listCBR.contains(i) && !i.equals(base)) {
+                x = i;
+                listCBR.add(i);
+            }
+        }
+
+        return x;
+    }
     public static boolean foundBreaker2(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df, List<OWLIndividual> listTCTR, List<OWLIndividual> listTVTR, List<OWLIndividual> listCBR ){
         OWLObjectProperty cnOf = df.getOWLObjectProperty(IRI.create(ns+"cnOf"));
         OWLClassExpression TCTR = df.getOWLClass(IRI.create(ns+"TCTR"));
@@ -56,7 +65,7 @@ public class isItWhatILookingFor {
             if (gg.contains(TCTR)) {
                 x = true;
                 if (!listTCTR.contains(i)){
-                listTCTR.add(i);}
+                    listTCTR.add(i);}
             }
             else if(gg.contains(CBR) && !listCBR.contains(i)){
                 listCBR.add(i);

@@ -68,4 +68,35 @@ public class lookFor {
             }
         }
     }
+    public static void getConnectedEquipment(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df, OWLIndividual basInd, OWLClassExpression clas, List<OWLIndividual> clasCollection, OWLIndividual basCbr) {
+        System.out.println("welcome to connect "+ ind +"and " + basCbr);
+        x = isItWhatILookingFor.foundConnected(ind,ont,ns,df,clas, clasCollection, basCbr);
+        if (x == null ) {
+            for (OWLIndividual i : connectionWith.hasConnection(ind, ont, ns, df)) {
+                System.out.println("----------------");
+                if (!i.equals(basInd)) {
+                    getConnectedEquipment(i, ont, ns, df, ind, clas, clasCollection, basCbr);
+                }
+            }
+        }
+        else {
+            System.out.println("found " + x);
+        }
+    }
+//    public static void getAll(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df, List<OWLIndividual> basInd, OWLClassExpression clas, List<OWLIndividual> clasCollection) {
+//        boolean fl = false;
+//        System.out.println("Welcome to get!!!" + ind);
+//        x = isItWhatILookingFor.foundBreakerAndNodes(ind, ont, ns, df, clasCollection);
+//        if (f && !fl) {
+//            fl = true;
+//            for (OWLIndividual i : connectionWith.hasConnection(ind, ont, ns, df)) {
+//                System.out.println("----------------");
+//                System.out.println(i);
+//                if (!basInd.contains(i)) {
+//                    basInd.add(i);
+//                    getAll(i, ont, ns, df, basInd, clas, clasCollection);
+//                }
+//            }
+//        }
+//    }
 }

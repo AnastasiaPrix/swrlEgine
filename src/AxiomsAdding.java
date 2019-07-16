@@ -28,4 +28,11 @@ public class AxiomsAdding {
             manager.applyChange(Ad);
         }
     }
+    public static void addingConnections(OWLOntology ont, OWLOntologyManager manager, OWLDataFactory df, List<OWLIndividual> indList, OWLObjectProperty property){
+        for (int i=1; i < indList.size(); i++) {
+            OWLAxiom Ax = df.getOWLObjectPropertyAssertionAxiom(property, indList.get(i-1), indList.get(i));
+            AddAxiom Ad = new AddAxiom(ont, Ax);
+            manager.applyChange(Ad);
+        }
+    }
 }
