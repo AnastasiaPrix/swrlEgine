@@ -6,7 +6,7 @@ import java.util.Collection;
 public class CreateShortBus {
 
     public static void CreateBus(OWLOntology ontology, OWLOntologyManager manager, OWLDataFactory df, String ns, OWLIndividual j, OWLIndividual trans, OWLIndividual volt, Collection<OWLIndividual> nodes, int k){
-        OWLClass oshClass = df.getOWLClass(IRI.create(ns+"shortBus"));
+        OWLClass oshClass = df.getOWLClass(IRI.create(ns+"ShortBus"));
         OWLObjectProperty hasCN = df.getOWLObjectProperty(IRI.create(ns+"hasCN"));
         OWLObjectProperty hasVoltageLevel = df.getOWLObjectProperty(IRI.create(ns+"hasVoltageLevel"));
         OWLObjectProperty hasBus = df.getOWLObjectProperty(IRI.create(ns+"hasShortBus"));
@@ -27,7 +27,7 @@ public class CreateShortBus {
 
     }
     public static void CreateFalseBus(OWLOntology ontology, OWLOntologyManager manager, OWLDataFactory df, String ns, OWLIndividual j, OWLIndividual trans, OWLIndividual volt, Collection<OWLIndividual> nodes, int k){
-        OWLClass oshClass = df.getOWLClass(IRI.create(ns+"shortBus"));
+        OWLClass oshClass = df.getOWLClass(IRI.create(ns+"ShortBus"));
         OWLObjectProperty hasCN = df.getOWLObjectProperty(IRI.create(ns+"hasCN"));
         OWLObjectProperty hasVoltageLevel = df.getOWLObjectProperty(IRI.create(ns+"hasVoltageLevel"));
         OWLObjectProperty hasBus = df.getOWLObjectProperty(IRI.create(ns+"hasFalseBus"));

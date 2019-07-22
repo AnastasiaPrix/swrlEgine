@@ -2,7 +2,7 @@ import org.semanticweb.owlapi.model.*;
 import java.util.List;
 
 public class CreateProtectionIndivid {
-    public static void CreateProtection(OWLNamedIndividual ind, OWLOntology ont, String ns, List<OWLClass> protection, OWLDataFactory df, OWLOntologyManager manager, int variant) {
+    public static void CreateProtection(OWLNamedIndividual ind, OWLOntology ont, String ns, List<OWLClass> protection, OWLDataFactory df, OWLOntologyManager manager, int variant, int k) {
 
         // задание имени идивида
         String[] linesName1 = ind.toString().split("#");

@@ -4,8 +4,8 @@ import java.util.List;
 
 public class CreateComplectOfProtection {
 
-    public static void CreateComplect(OWLNamedIndividual ind, OWLOntology ont, String ns, List<OWLClass> protection, OWLDataFactory df, OWLOntologyManager manager) {
-        int l = 1;
+    public static int CreateComplect(OWLNamedIndividual ind, OWLOntology ont, String ns, List<OWLClass> protection, OWLDataFactory df, OWLOntologyManager manager, int l) {
+       // int l = 1;
         for (OWLClass j: protection) {
             //String l1 = l+"";
             String[] linesName1 = ind.toString().split("#");
@@ -22,5 +22,6 @@ public class CreateComplectOfProtection {
             l++;
 
         }
+        return l;
     }
 }

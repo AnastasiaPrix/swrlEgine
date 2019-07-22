@@ -1,3 +1,4 @@
+import org.openrdf.model.vocabulary.OWL;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
@@ -20,7 +21,7 @@ public class zaprosi {
 
     public static void main(String[] args) throws OWLOntologyCreationException, FileNotFoundException, OWLOntologyStorageException, SWRLBuiltInException, SWRLParseException {
 
-        TEST.Start();
+       // TEST.Start();
 
 
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -38,6 +39,8 @@ public class zaprosi {
         SWRLAPIRule rule04 = ruleEngine.createSWRLRule("set2" ,"Lines(?p) ^ base(?p, 1) ^ hasChannel(?p,1)  -> setOfProtection(?p, 2)");
 
         ruleEngine.infer();
+
+        int k = 0;
 
         String ns = "http://www.semanticweb.org/anast/ontologies/2019/3/untitled-ontology-22#";
         OWLIndividual trans = null;
@@ -57,6 +60,7 @@ public class zaprosi {
         OWLObjectProperty hasTVTR= df.getOWLObjectProperty(IRI.create(ns + "hasTVTR"));
         OWLObjectProperty tctrFirst = df.getOWLObjectProperty(IRI.create(ns + "tctrFirst"));
         OWLObjectProperty hasBus = df.getOWLObjectProperty(IRI.create(ns + "hasShortBus"));
+        OWLObjectProperty hasFalseBus = df.getOWLObjectProperty(IRI.create(ns + "hasFalseBus"));
         OWLObjectProperty hasVoltageLevel = df.getOWLObjectProperty(IRI.create(ns + "hasVoltageLevel"));
         OWLObjectProperty isSwitchedBy = df.getOWLObjectProperty(IRI.create(ns + "isSwitchedBy"));
         OWLObjectProperty connectedWithCbr = df.getOWLObjectProperty(IRI.create(ns + "connectedWithCbr"));
@@ -72,7 +76,6 @@ public class zaprosi {
         ////////////////////////////////////TT,TV and CBR for Transformers/////////////////////////////////////////
         Set<OWLNamedIndividual> indPTW = getIndividualByClass.getIndividualofClass(PTW, reasoner);
         for (OWLNamedIndividual i : indPTW) {
-            int k = 0;
             System.out.println(i.getIRI().getFragment());
             OWLIndividual bI = null;
             OWLIndividual volt = null;
@@ -91,8 +94,6 @@ public class zaprosi {
                 List<OWLIndividual> tvtrOfT = new ArrayList<>();
                 List<OWLIndividual> cbrList = new ArrayList<>();
                 List<OWLIndividual> cnList = new ArrayList<>();
-//                lookFor.getAll(j,ontology,ns,df,cnList,CBR_E,cbrList);
-//                AxiomsAdding.addingConnections(ontology,manager,df,cbrList,connectedWithCbr);
                 lookFor.getTT_TV_CBR(j, ontology, ns, df, bI, nodes, false, tctrOfT, tvtrOfT, cbrOfT);
                 CreateShortBus.CreateBus(ontology,manager,df,ns,j,trans,volt,nodes, k);
                 AxiomsAdding.adding(ontology,manager,df,trans,tctrOfT.get(0),tctrFirst);
@@ -106,7 +107,6 @@ public class zaprosi {
         //////////////////////////////////////TT, TV and CBR for Lines///////////////////////////////////////////
         Set<OWLNamedIndividual> indLines = getIndividualByClass.getIndividualofClass(linesClass, reasoner);
         for (OWLNamedIndividual l: indLines){
-            int k = 0;
             Collection<OWLIndividual> indCnL = getIndividualFromProperty.getIndivid(l, ontology, hasCN);
             Collection<OWLIndividual> voltL = getIndividualFromProperty.getIndivid(l,ontology, hasVoltageLevel);
             for (OWLIndividual v: voltL) {
@@ -192,7 +192,23 @@ public class zaprosi {
                 AxiomsAdding.addingSeveral(ontology, manager, df, c, cbrOfCp, isSwitchedBy);
             }
         }
-
+        ///////////////////////////////////TT TV and CBR fo ShortBus////////////////////////////////////////////////
+        Set<OWLNamedIndividual> indS = getIndividualByClass.getIndividualofClass(oshClass, reasoner);
+        for (OWLNamedIndividual s: indS){
+            System.out.println("shortBus");
+            Collection<OWLIndividual> indCnS = getIndividualFromProperty.getIndivid(s,ontology,hasCN);
+            for (OWLIndividual i : indCnS){
+                List<OWLIndividual> tctrOfS = new ArrayList<>();
+                List<OWLIndividual> tvtrOfS = new ArrayList<>();
+                List<OWLIndividual> cbrOfS = new ArrayList<>();
+                Collection<OWLIndividual> nodesS = new HashSet<>();
+                lookFor.getTT_TV_CBR(i,ontology,ns,df,null,nodesS,false,tctrOfS,tvtrOfS,cbrOfS);
+                AxiomsAdding.addingSeveral(ontology, manager, df, s, tctrOfS, hasTCTR);
+                AxiomsAdding.addingSeveral(ontology, manager, df, s, tvtrOfS, hasTVTR);
+                AxiomsAdding.addingSeveral(ontology, manager, df, s, cbrOfS, isSwitchedBy);
+            }
+        }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         SWRLAPIRule rule6 = ruleEngine.createSWRLRule("CN","ShortBus(?b) ^ hasVoltageLevel(?b,?v) ^ voltageType(?v,?vv) ^ swrlb:equal(?vv,2) -> voltageType(?b, 2)");
         SWRLAPIRule rule7 = ruleEngine.createSWRLRule("BN","ShortBus(?b) ^ hasVoltageLevel(?b,?v) ^ voltageType(?v,?vv) ^ swrlb:equal(?vv,1) -> voltageType(?b, 1)");
         SWRLAPIRule rule8 = ruleEngine.createSWRLRule("NN","ShortBus(?b) ^ hasVoltageLevel(?b,?v) ^ voltageType(?v,3) -> voltageType(?b, 3)");
@@ -204,8 +220,7 @@ public class zaprosi {
         SWRLAPIRule rule3 = ruleEngine.createSWRLRule("oshinBN","AutoTransformers(?x) ^ ShortBus(?b)^ hasShortBus(?x,?b) ^ hasVoltageLevel(?b,?v) ^ voltageType(?v, 1) ^ hasVoltage(?v,220) -> setOfProtection(?x, 4)");
         SWRLAPIRule rule4 = ruleEngine.createSWRLRule("oshinNN","YPTR(?x) ^ hasReactors(?x,?b) -> setOfProtection(?x, 2)");
         SWRLAPIRule rule12 = ruleEngine.createSWRLRule("oshinBN2","AutoTransformers(?x) ^ base(?x,6) -> setOfProtection(?x, 6)");
-
-
+        SWRLAPIRule rule13 = ruleEngine.createSWRLRule("PDIF_O_forCN", "PowerTransformers(?p) ^ hasTCTR(?p,?t) ^ hasVoltageLevel(?t,?v) ^ voltageType(?v,2) ^ isSwitchedBy(?p,?c) ^ hasTCTR(?c,?t) -> setOfProtection(?p,7)");
         ruleEngine.infer();
 
 
@@ -223,6 +238,8 @@ public class zaprosi {
         OWLClass ptm = df.getOWLClass(IRI.create(ns + "PTM"));
         OWLClass pozz = df.getOWLClass(IRI.create(ns + "POZZ"));
         OWLClass pdz = df.getOWLClass(IRI.create(ns + "PDZ"));
+        OWLClass ptc = df.getOWLClass(IRI.create(ns + "PTC"));
+        OWLClass ptcnL = df.getOWLClass(IRI.create(ns+"PTCN_L"));
         OWLObjectProperty hasVoltage = df.getOWLObjectProperty(IRI.create(ns + "hasVoltageLevel"));
 
         OWLDataProperty hasChanel = df.getOWLDataProperty(IRI.create(ns + "hasChannel"));
@@ -287,6 +304,103 @@ public class zaprosi {
         OWLClass PTCN_C = df.getOWLClass(IRI.create(ns+"PTCN_C"));
         OWLClass PTM_C = df.getOWLClass(IRI.create(ns+"PTM_C"));
         OWLClass PTM_U_C = df.getOWLClass(IRI.create(ns+"PTM_U_C"));
+
+        ///////////////////Motors///////////////////////////////////
+        OWLClass Motors = df.getOWLClass(IRI.create(ns+"ZMOT"));
+        OWLClass FOO = df.getOWLClass(IRI.create(ns+"FOO"));
+        OWLClass PAR = df.getOWLClass(IRI.create(ns+"PAR"));
+        OWLClass PCLOAD = df.getOWLClass(IRI.create(ns+"PCLOAD"));
+        OWLClass PDIF_M = df.getOWLClass(IRI.create(ns+"PDIF_M"));
+        OWLClass PDIF_TO = df.getOWLClass(IRI.create(ns+"PDIF_TO"));
+        OWLClass PLP = df.getOWLClass(IRI.create(ns+"PLP"));
+        OWLClass PMU_M = df.getOWLClass(IRI.create(ns+"PMU_M"));
+        OWLClass PNR = df.getOWLClass(IRI.create(ns+"PNR"));
+        OWLClass POZZ_M = df.getOWLClass(IRI.create(ns+"POZZ_M"));
+        OWLClass POZZ_D = df.getOWLClass(IRI.create(ns+"POZZ_D"));
+        OWLClass PTO_M = df.getOWLClass(IRI.create(ns+"PTO_M"));
+        OWLClass PTP_M = df.getOWLClass(IRI.create(ns+"PTP_M"));
+        /////////////////////////////////////////////////////////////
+        List<OWLClass> mainProtection = new ArrayList<>();
+        List<OWLClass> reserveProtection = new ArrayList<>();
+        List<OWLClass> technologicalProtection = new ArrayList<>();
+
+        mainProtection.add(PDIF_B);
+        mainProtection.add(PDIF_T);
+        mainProtection.add(PDIF_BAT);
+        mainProtection.add(PDIF_O);
+        mainProtection.add(PDIF_R);
+        mainProtection.add(PDIF_P);
+        mainProtection.add(pdifFLin);
+        mainProtection.add(pdifLin);
+        mainProtection.add(PTO_T);
+        mainProtection.add(nvchz);
+        mainProtection.add(rs);
+        mainProtection.add(pto);
+        mainProtection.add(pdz);
+        mainProtection.add(PDZ_B);
+        mainProtection.add(PDZ_C);
+        mainProtection.add(PLOG);
+        mainProtection.add(PGAS);
+        mainProtection.add(PGAS_R);
+        mainProtection.add(PTO_M);
+        mainProtection.add(PDIF_M);
+        mainProtection.add(PDIF_TO);
+        mainProtection.add(PRPN);
+
+        reserveProtection.add(pdis);
+        reserveProtection.add(pntcn);
+        reserveProtection.add(ptcnL);
+        reserveProtection.add(pozz);
+        reserveProtection.add(PDIS_C);
+        reserveProtection.add(PDIS_R);
+        reserveProtection.add(PDIS_T);
+        reserveProtection.add(PNTCN_C);
+        reserveProtection.add(PNTCN_T);
+        reserveProtection.add(PTCN);
+        reserveProtection.add(PTM_BAT);
+        reserveProtection.add(PTM_C);
+        reserveProtection.add(PTM_U_C);
+        reserveProtection.add(PTM_U);
+        reserveProtection.add(ptm);
+        reserveProtection.add(PTP);
+        reserveProtection.add(PTP_BAT);
+        reserveProtection.add(PTP_R);
+        reserveProtection.add(ptpL);
+        reserveProtection.add(POZZ_B);
+        reserveProtection.add(PBNN);
+        reserveProtection.add(PBU);
+        reserveProtection.add(PCRI_V);
+        reserveProtection.add(PCRI_V_R);
+        reserveProtection.add(PDU);
+        reserveProtection.add(PTC_C);
+        reserveProtection.add(PVP);
+        reserveProtection.add(PCRI);
+        reserveProtection.add(PUPRAV_W);
+        reserveProtection.add(PTW);
+        reserveProtection.add(PWIN);
+        reserveProtection.add(FOO);
+        reserveProtection.add(PAR);
+        reserveProtection.add(PCLOAD);
+        reserveProtection.add(PLP);
+        reserveProtection.add(PNR);
+        reserveProtection.add(POZZ_D);
+        reserveProtection.add(POZZ_M);
+        reserveProtection.add(PTP_M);
+        reserveProtection.add(PMU_M);
+        reserveProtection.add(CRI_NN);
+        reserveProtection.add(ptc);
+        reserveProtection.add(PMU_C);
+        reserveProtection.add(PMU);
+        reserveProtection.add(PTCN_C);
+
+
+        technologicalProtection.add(POIL);
+        technologicalProtection.add(POIL_R);
+        technologicalProtection.add(PICE);
+        technologicalProtection.add(PICE_R);
+
+
+
 
         /////////////////////protectionList/////////////////
 
@@ -414,6 +528,7 @@ public class zaprosi {
         protectionOfTrans1.put(4, set2);
         protectionOfTrans1.put(5, set3);
         protectionOfTrans1.put(6, set1);
+        protectionOfTrans1.put(7,set2);
         ///////////////////////////////////////////////
         List<OWLClass> baseBus0 = new ArrayList<>();
         baseBus0.add(PDIF_B);
@@ -486,8 +601,7 @@ public class zaprosi {
         protectionOfCBR.put(2,cbrBase2);
         protectionOfCBR.put(3,cbrBase3);
 
-
-        // Set<OWLNamedIndividual> indLines = getIndividualByClass.getIndividualofClass(linesClass, reasoner);
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
         int variant = (int) (Math.random() * 2 + 1);
         int variant3 = (int) (Math.random() * 2);
         for (OWLNamedIndividual i : indLines) {
@@ -496,47 +610,54 @@ public class zaprosi {
             for (OWLLiteral n : setBase) {
                 int baseNumber = n.parseInteger();
                 List<OWLClass> protectVar = protectionOfLines1.get(baseNumber);
-                CreateComplectOfProtection.CreateComplect(i, ontology, ns, protectVar, df, manager);
+               k = CreateComplectOfProtection.CreateComplect(i, ontology, ns, protectVar, df, manager,k);
+
             }
             if (!setVar.isEmpty()) {
                 for (OWLLiteral n : setVar) {
                     int varNumber = n.parseInteger();
                     if (varNumber != 2) {
-                        CreateProtectionIndivid.CreateProtection(i, ontology, ns, protectionLines, df, manager, varNumber);
+                        CreateProtectionIndivid.CreateProtection(i, ontology, ns, protectionLines, df, manager, varNumber, k);
+                        k++;
                     } else {
-                        CreateProtectionIndivid.CreateProtection(i, ontology, ns, protectionLines, df, manager, variant);
+                        CreateProtectionIndivid.CreateProtection(i, ontology, ns, protectionLines, df, manager, variant, k);
+                        k++;
                     }
                 }
             } else {
-                CreateProtectionIndivid.CreateProtection(i, ontology, ns, protectionLines, df, manager, variant3);
+                CreateProtectionIndivid.CreateProtection(i, ontology, ns, protectionLines, df, manager, variant3,k);
+                k++;
             }
      }
         Set<OWLNamedIndividual> indTransform = getIndividualByClass.getIndividualofClass(yptrClass, reasoner);
         for (OWLNamedIndividual n: indTransform){
-            CreateComplectOfProtection.CreateComplect(n,ontology,ns,generalT,df,manager);
+            k = CreateComplectOfProtection.CreateComplect(n,ontology,ns,generalT,df,manager,k);
+
             Collection<OWLLiteral> baseT = getValuesFromProperty.getValues(n,ontology,base);
             Collection<OWLLiteral> setOfT = getValuesFromProperty.getValues(n,ontology,setOf);
             for (OWLLiteral b: baseT){
                 int baseTNumber = b.parseInteger();
-                CreateComplectOfProtection.CreateComplect(n,ontology,ns,protectionOfTrans.get(baseTNumber),df,manager);
+                k = CreateComplectOfProtection.CreateComplect(n,ontology,ns,protectionOfTrans.get(baseTNumber),df,manager,k);
             }
              for (OWLLiteral s: setOfT){
                 int setOfNumber = s.parseInteger();
-                CreateComplectForSeveral.CreateComplect_2(n, setOfNumber,ontology,ns,protectionOfTrans1.get(setOfNumber),df,manager);
+                k = CreateComplectForSeveral.CreateComplect_2(n, setOfNumber,ontology,ns,protectionOfTrans1.get(setOfNumber),df,manager,k);
 
             }
         }
-       // Set<OWLNamedIndividual> indBus = getIndividualByClass.getIndividualofClass(busClass, reasoner);
+
         for (OWLNamedIndividual i: indBus){
             Collection<OWLLiteral>  baseB = getValuesFromProperty.getValues(i,ontology,base);
             if (baseB.isEmpty()){
-                CreateComplectOfProtection.CreateComplect(i,ontology,ns,protectionOfBus.get(1),df,manager);
+                k=CreateComplectOfProtection.CreateComplect(i,ontology,ns,protectionOfBus.get(1),df,manager,k);
+
 
             }
              else{
                  for (OWLLiteral b: baseB){
                     int busNumber = b.parseInteger();
-                    CreateComplectOfProtection.CreateComplect(i,ontology,ns,protectionOfBus.get(busNumber),df,manager);
+                    k=CreateComplectOfProtection.CreateComplect(i,ontology,ns,protectionOfBus.get(busNumber),df,manager,k);
+
                 }
             }
         }
@@ -546,7 +667,8 @@ public class zaprosi {
             if (!baseRea.isEmpty()){
                for (OWLLiteral l: baseRea){
                    int reaNumber = l.parseInteger();
-                           CreateComplectOfProtection.CreateComplect(j,ontology,ns,protectionOfRea.get(reaNumber),df,manager);
+                          k = CreateComplectOfProtection.CreateComplect(j,ontology,ns,protectionOfRea.get(reaNumber),df,manager,k);
+
                }
             }
         }
@@ -556,7 +678,8 @@ public class zaprosi {
             if (!baseE.isEmpty()){
                 for (OWLLiteral l: baseE){
                     int efnNumber = l.parseInteger();
-                    CreateComplectOfProtection.CreateComplect(i,ontology,ns,protectionOfEFN.get(efnNumber),df,manager);
+                    k = CreateComplectOfProtection.CreateComplect(i,ontology,ns,protectionOfEFN.get(efnNumber),df,manager,k);
+
                 }
             }
         }
@@ -567,7 +690,8 @@ public class zaprosi {
             if (!baseC.isEmpty()){
                 for (OWLLiteral l: baseC){
                     int capNumber = l.parseInteger();
-                    CreateComplectOfProtection.CreateComplect(i,ontology,ns,protectionOfEFN.get(capNumber),df,manager);
+                    k = CreateComplectOfProtection.CreateComplect(i,ontology,ns,protectionOfEFN.get(capNumber),df,manager,k);
+
                 }
             }
         }
@@ -578,7 +702,8 @@ public class zaprosi {
             if (!baseBr.isEmpty()){
                 for (OWLLiteral l: baseBr){
                     int cbrNumber = l.parseInteger();
-                    CreateComplectOfProtection.CreateComplect(j,ontology,ns,protectionOfCBR.get(cbrNumber),df,manager);
+                    k = CreateComplectOfProtection.CreateComplect(j,ontology,ns,protectionOfCBR.get(cbrNumber),df,manager,k);
+
                 }
             }
         }
