@@ -2,11 +2,12 @@ import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.search.EntitySearcher;
 
 import java.util.Collection;
+import java.util.List;
 
 public class isSomeProtected {
    // public static boolean f = false;
     public  static OWLIndividual x = null;
-    public static boolean IsProtected(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df){
+    public static boolean IsProtected(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df, List<OWLIndividual> listEq){
        // OWLIndividual x = null;
         boolean f = false;
         OWLObjectProperty cnOf = df.getOWLObjectProperty(IRI.create(ns+"cnOf"));
@@ -21,6 +22,24 @@ public class isSomeProtected {
             Collection<OWLClassExpression> y =  EntitySearcher.getTypes(i, ont);
             if (!(y.contains(XSWI)||y.contains(TCTR)||y.contains(TVTR)||y.contains(ZREA)|| y.contains(ZCAB)||y.contains(CBR))) {
                 f = true; }
+            if(y.contains(ZREA)||y.contains(ZCAB)){
+                listEq.add(i);
+            }
         }
         return f;}
+
+//    public static OWLIndividual IsProtectedConnected(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df){
+//        // OWLIndividual x = null;
+//        OWLIndividual x = null;
+//        OWLObjectProperty cnOf = df.getOWLObjectProperty(IRI.create(ns+"cnOf"));
+//        OWLClassExpression shortBus = df.getOWLClass(IRI.create(ns+"ShortBus"));
+//        OWLClassExpression ZREA = df.getOWLClass(IRI.create(ns+"ZREA"));
+//        OWLClassExpression ZCAB = df.getOWLClass(IRI.create(ns+"ZCAB"));
+//        //  Collection<OWLIndividual> nodes = EntitySearcher.getObjectPropertyValues(ind, cnOf, ont);
+//        for( OWLIndividual i: EntitySearcher.getObjectPropertyValues(ind, cnOf, ont)) {
+//            Collection<OWLClassExpression> y =  EntitySearcher.getTypes(i, ont);
+//            if (y.contains(ZREA)|| y.contains(ZCAB)||y.contains(shortBus)) {
+//                x = i; }
+//        }
+//        return x;}
 }

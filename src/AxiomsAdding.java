@@ -28,6 +28,13 @@ public class AxiomsAdding {
             manager.applyChange(Ad);
         }
     }
+    public static void addingSeveral2(OWLOntology ont, OWLOntologyManager manager, OWLDataFactory df, List<OWLIndividual> ind1, OWLIndividual ind2, OWLObjectProperty property){
+        for (OWLIndividual i: ind1) {
+            OWLAxiom Ax = df.getOWLObjectPropertyAssertionAxiom(property, ind2, i);
+            AddAxiom Ad = new AddAxiom(ont, Ax);
+            manager.applyChange(Ad);
+        }
+    }
     public static void addingConnections(OWLOntology ont, OWLOntologyManager manager, OWLDataFactory df, List<OWLIndividual> indList, OWLObjectProperty property){
         for (int i=1; i < indList.size(); i++) {
             OWLAxiom Ax = df.getOWLObjectPropertyAssertionAxiom(property, indList.get(i-1), indList.get(i));
