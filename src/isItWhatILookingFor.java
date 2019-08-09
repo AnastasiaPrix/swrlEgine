@@ -54,6 +54,21 @@ public class isItWhatILookingFor {
 
         return x;
     }
+    public static OWLIndividual foundConnectedEq(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df,  OWLClassExpression clas, List<OWLIndividual> listCBR, OWLIndividual base ){
+        OWLObjectProperty cnOf = df.getOWLObjectProperty(IRI.create(ns+"cnOf"));
+        OWLClassExpression CBR = df.getOWLClass(IRI.create(ns+"XCBR"));
+        OWLClassExpression SWI = df.getOWLClass(IRI.create(ns+"XSWI"));
+        OWLIndividual x = null;
+        for( OWLIndividual i: EntitySearcher.getObjectPropertyValues(ind, cnOf, ont)) {
+            Collection<OWLClassExpression> gg = EntitySearcher.getTypes(i, ont);
+            if (gg.contains(clas) && !listCBR.contains(i) && !gg.contains(CBR)&& !gg.contains(SWI) && !i.equals(base)) {
+                x = i;
+                listCBR.add(i);
+            }
+        }
+
+        return x;
+    }
     public static boolean foundBreaker2(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df, List<OWLIndividual> listTCTR, List<OWLIndividual> listTVTR, List<OWLIndividual> listCBR ){
         OWLObjectProperty cnOf = df.getOWLObjectProperty(IRI.create(ns+"cnOf"));
         OWLClassExpression TCTR = df.getOWLClass(IRI.create(ns+"TCTR"));

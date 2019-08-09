@@ -28,6 +28,17 @@ public class isSomeProtected {
         }
         return f;}
 
+//    public static boolean IsBus(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df) {
+//        boolean f = false;
+//        OWLObjectProperty cnOf = df.getOWLObjectProperty(IRI.create(ns + "cnOf"));
+//        OWLClassExpression Bus = df.getOWLClass(IRI.create(ns+"Bus"));
+//        for (OWLIndividual i : EntitySearcher.getObjectPropertyValues(ind, cnOf, ont)) {
+//            Collection<OWLClassExpression> y = EntitySearcher.getTypes(i, ont);
+//            if(y.contains(Bus))
+//        }
+//        return f;
+//    }
+
 //    public static OWLIndividual IsProtectedConnected(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df){
 //        // OWLIndividual x = null;
 //        OWLIndividual x = null;
