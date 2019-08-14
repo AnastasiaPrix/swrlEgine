@@ -95,11 +95,13 @@ public class lookFor {
     }
 
     public static void getConnectedEquipment2(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df, OWLIndividual basInd, OWLClassExpression clas, List<OWLIndividual> clasCollection, OWLIndividual base) {
-        System.out.println("Welcome!!!!!!!!!!!!!!!!!!!! "+base);
+        System.out.println("Welcome!!!!!!!!!!!!!!!!!!!! "+base+" in Eq!");
         x = isItWhatILookingFor.foundConnectedEq(ind, ont, ns, df, clas, clasCollection, base);
+        System.out.println("x is " + x);
         if (x != null) {
             System.out.println("Found  ");
             System.out.println(ind + " connectedEquipmentWith " + x);
+
         } else {
             for (OWLIndividual i : connectionWith.hasConnection(ind, ont, ns, df)) {
                 if (!i.equals(basInd)) {

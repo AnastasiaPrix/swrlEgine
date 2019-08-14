@@ -64,6 +64,7 @@ public class zaprosi {
         OWLObjectProperty hasBus = df.getOWLObjectProperty(IRI.create(ns + "hasShortBus"));
         OWLObjectProperty hasFalseBus = df.getOWLObjectProperty(IRI.create(ns + "hasFalseBus"));
         OWLObjectProperty mainProtect =  df.getOWLObjectProperty(IRI.create(ns+"mainProtect"));
+        OWLObjectProperty addedEquipment =  df.getOWLObjectProperty(IRI.create(ns+"addedEquipment"));
         OWLObjectProperty hasVoltageLevel = df.getOWLObjectProperty(IRI.create(ns + "hasVoltageLevel"));
         OWLObjectProperty isSwitchedBy = df.getOWLObjectProperty(IRI.create(ns + "isSwitchedBy"));
         OWLObjectProperty connectedWithCbr = df.getOWLObjectProperty(IRI.create(ns + "connectedWithCbr"));
@@ -97,15 +98,18 @@ public class zaprosi {
                 List<OWLIndividual> tctrOfT = new ArrayList<>();
                 List<OWLIndividual> tvtrOfT = new ArrayList<>();
                 List<OWLIndividual> eqOfT = new ArrayList<>();
-                lookFor.getTT_TV_CBR(j, ontology, ns, df, bI, nodes, false, tctrOfT, tvtrOfT, cbrOfT, eqOfT);
+                List<OWLIndividual> adOfT = new ArrayList<>();
+                lookFor.getTT_TV_CBR(j, ontology, ns, df, bI, nodes, false, tctrOfT, tvtrOfT, cbrOfT, adOfT);
                 CreateShortBus.CreateBus(ontology, manager, df, ns, j, trans, volt, nodes, k);
-                lookFor.getConnectedEquipment2(i,ontology,ns,df,null,eqClass,eqOfT,trans);
+                lookFor.getConnectedEquipment2(j,ontology,ns,df,null,eqClass,eqOfT,i);
                 AxiomsAdding.adding(ontology, manager, df, trans, tctrOfT.get(0), tctrFirst);
                 tctrOfT.remove(0);
                 AxiomsAdding.addingSeveral(ontology, manager, df, trans, tctrOfT, hasTCTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, trans, tvtrOfT, hasTVTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, trans, cbrOfT, isSwitchedBy);
+                System.out.println("!!!!!!!TRANS "+ eqOfT.size());
                 AxiomsAdding.addingSeveral(ontology,manager,df,trans,eqOfT,connectedEquipment);
+                AxiomsAdding.addingSeveral(ontology,manager,df,trans,adOfT,addedEquipment);
                 k++;
             }
         }
@@ -123,16 +127,16 @@ public class zaprosi {
                     List<OWLIndividual> eqOfL = new ArrayList<>();
                     Collection<OWLIndividual> nodesLines = new HashSet<>();
                     lookFor.getTT_TV_CBR(i, ontology, ns, df, null, nodesLines, false, tctrOfL, tvtrOfL, cbrOfL, eqOfL);
-                    lookFor.getConnectedEquipment2(i,ontology,ns,df,null,eqClass,eqOfL,l);
                     AxiomsAdding.addingSeveral(ontology, manager, df, l, tctrOfL, hasTCTR);
                     AxiomsAdding.addingSeveral(ontology, manager, df, l, tvtrOfL, hasTVTR);
                     AxiomsAdding.addingSeveral(ontology, manager, df, l, cbrOfL, isSwitchedBy);
-                    AxiomsAdding.addingSeveral(ontology,manager,df,l,eqOfL,connectedEquipment);
                     if (b.isEmpty()) {
                         CreateShortBus.CreateBus(ontology, manager, df, ns, i, l, v, nodesLines, k);
                     } else {
                         CreateShortBus.CreateFalseBus(ontology, manager, df, ns, i, l, v, nodesLines, k);
                     }
+                    lookFor.getConnectedEquipment2(i,ontology,ns,df,null,eqClass,eqOfL,l);
+                    AxiomsAdding.addingSeveral(ontology,manager,df,l,eqOfL,connectedEquipment);
                     k++;
                 }
             }
@@ -761,6 +765,7 @@ public class zaprosi {
         SWRLAPIRule rule15  = ruleEngine.createSWRLRule("mainPr", "Equipment(?e) ^ connectedEquipment(?e, ?c) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ hasVoltageLevel(?c, ?v) ^ voltageType(?v, ?vv) ^ voltageType(?p, ?t) ^ swrlb:equal(?vv, ?t) -> mainProtect(?p, ?c)");
         SWRLAPIRule rule16  = ruleEngine.createSWRLRule("pdifForS", "Equipment(?e) ^ hasShortBus(?e, ?b) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ voltageType(?b, ?v) ^ voltageType(?p, ?t) ^ swrlb:equal(?v, ?t) -> isProtectedBy(?b, ?p)");
         SWRLAPIRule rule17  = ruleEngine.createSWRLRule("mainPrS", "Equipment(?e) ^ hasShortBus(?e, ?b) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ voltageType(?b, ?v) ^ voltageType(?p, ?t) ^ swrlb:equal(?v, ?t) -> mainProtect(?p, ?b)");
+        SWRLAPIRule rule18 = ruleEngine.createSWRLRule("connectedE", "Equipment(?e) ^ connectedEquipment(?e,?c) -> connectedEquipment(?c,?e)");
         ruleEngine.infer();
 
         OutputStream out = new FileOutputStream("C:\\Users\\anast\\Desktop\\ont_pig_1.owl");

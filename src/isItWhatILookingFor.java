@@ -59,9 +59,11 @@ public class isItWhatILookingFor {
         OWLClassExpression CBR = df.getOWLClass(IRI.create(ns+"XCBR"));
         OWLClassExpression SWI = df.getOWLClass(IRI.create(ns+"XSWI"));
         OWLIndividual x = null;
+
         for( OWLIndividual i: EntitySearcher.getObjectPropertyValues(ind, cnOf, ont)) {
+            System.out.println("i foi=und "+ i);
             Collection<OWLClassExpression> gg = EntitySearcher.getTypes(i, ont);
-            if (gg.contains(clas) && !listCBR.contains(i) && !gg.contains(CBR)&& !gg.contains(SWI) && !i.equals(base)) {
+            if (gg.contains(clas)  && !gg.contains(CBR)&& !gg.contains(SWI) && !i.equals(base)) {
                 x = i;
                 listCBR.add(i);
             }
