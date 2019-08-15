@@ -1,8 +1,4 @@
-import de.derivo.sparqldlapi.Query;
-import de.derivo.sparqldlapi.QueryEngine;
-import de.derivo.sparqldlapi.QueryResult;
-import de.derivo.sparqldlapi.exceptions.QueryEngineException;
-import de.derivo.sparqldlapi.exceptions.QueryParserException;
+
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.InferenceType;
@@ -32,7 +28,7 @@ public class Egine {
 
     private static Set<String> set1 = new HashSet<>();
 
-    public static void main (String[] args) throws OWLOntologyCreationException, FileNotFoundException, OWLOntologyStorageException, SWRLBuiltInException, SWRLParseException, QueryParserException, QueryEngineException {
+    public static void main (String[] args) throws OWLOntologyCreationException, FileNotFoundException, OWLOntologyStorageException, SWRLBuiltInException, SWRLParseException {
 
         // загрузка онтологии с помощью менеджера файлов
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();

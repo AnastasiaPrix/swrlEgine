@@ -3,6 +3,7 @@ import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
+import org.semanticweb.owlapi.search.EntitySearcher;
 import org.swrlapi.core.SWRLAPIRule;
 import org.swrlapi.core.SWRLRuleEngine;
 import org.swrlapi.exceptions.SWRLBuiltInException;
@@ -20,11 +21,11 @@ public class zaprosi {
 
     public static void main(String[] args) throws OWLOntologyCreationException, FileNotFoundException, OWLOntologyStorageException, SWRLBuiltInException, SWRLParseException {
 
-       // TEST.Start();
+        TEST.Start();
 
 
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        File file = new File("C:\\Users\\anast\\Desktop\\magistratura\\project\\ontologies\\ont_PS3_pig.owl");
+        File file = new File("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_PS3_pig.owl");
         OWLOntology ontology = manager.loadOntologyFromOntologyDocument(file);
         System.out.println("Load ontology: " + ontology);
 
@@ -48,6 +49,7 @@ public class zaprosi {
         OWLClass eqClass = df.getOWLClass(IRI.create(ns + "Equipment"));
         OWLClass linesClass = df.getOWLClass(IRI.create(ns + "Lines"));
         OWLClass CBR = df.getOWLClass(IRI.create(ns + "XCBR"));
+        OWLClass SWI = df.getOWLClass(IRI.create(ns + "XSWI"));
         OWLClassExpression CBR_E = df.getOWLClass(IRI.create(ns + "XCBR"));
         OWLClass reaClass = df.getOWLClass((IRI.create(ns + "ZREA")));
         OWLClassExpression TCTR_E = df.getOWLClass(IRI.create(ns + "TCTR"));
@@ -69,6 +71,8 @@ public class zaprosi {
         OWLObjectProperty isSwitchedBy = df.getOWLObjectProperty(IRI.create(ns + "isSwitchedBy"));
         OWLObjectProperty connectedWithCbr = df.getOWLObjectProperty(IRI.create(ns + "connectedWithCbr"));
         OWLDataProperty busType = df.getOWLDataProperty(IRI.create(ns + "busType"));
+        OWLDataProperty added = df.getOWLDataProperty(IRI.create(ns + "added"));
+        OWLObjectProperty addedTo = df.getOWLObjectProperty(IRI.create(ns + "addedTo"));
         OWLDataProperty hasBus_ = df.getOWLDataProperty(IRI.create(ns + "hasBus"));
         OWLClass busClass = df.getOWLClass(IRI.create(ns + "Bus"));
         OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
@@ -101,14 +105,14 @@ public class zaprosi {
                 List<OWLIndividual> adOfT = new ArrayList<>();
                 lookFor.getTT_TV_CBR(j, ontology, ns, df, bI, nodes, false, tctrOfT, tvtrOfT, cbrOfT, adOfT);
                 CreateShortBus.CreateBus(ontology, manager, df, ns, j, trans, volt, nodes, k);
-                lookFor.getConnectedEquipment2(j,ontology,ns,df,null,eqClass,eqOfT,i);
+               // lookFor.getConnectedEquipment2(j,ontology,ns,df,null,eqClass,eqOfT,i);
                 AxiomsAdding.adding(ontology, manager, df, trans, tctrOfT.get(0), tctrFirst);
                 tctrOfT.remove(0);
                 AxiomsAdding.addingSeveral(ontology, manager, df, trans, tctrOfT, hasTCTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, trans, tvtrOfT, hasTVTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, trans, cbrOfT, isSwitchedBy);
                 System.out.println("!!!!!!!TRANS "+ eqOfT.size());
-                AxiomsAdding.addingSeveral(ontology,manager,df,trans,eqOfT,connectedEquipment);
+             //   AxiomsAdding.addingSeveral(ontology,manager,df,trans,eqOfT,connectedEquipment);
                 AxiomsAdding.addingSeveral(ontology,manager,df,trans,adOfT,addedEquipment);
                 k++;
             }
@@ -135,8 +139,8 @@ public class zaprosi {
                     } else {
                         CreateShortBus.CreateFalseBus(ontology, manager, df, ns, i, l, v, nodesLines, k);
                     }
-                    lookFor.getConnectedEquipment2(i,ontology,ns,df,null,eqClass,eqOfL,l);
-                    AxiomsAdding.addingSeveral(ontology,manager,df,l,eqOfL,connectedEquipment);
+                  //  lookFor.getConnectedEquipment2(i,ontology,ns,df,null,eqClass,eqOfL,l);
+                  //  AxiomsAdding.addingSeveral(ontology,manager,df,l,eqOfL,connectedEquipment);
                     k++;
                 }
             }
@@ -166,11 +170,11 @@ public class zaprosi {
                 List<OWLIndividual> eqOfR = new ArrayList<>();
                 Collection<OWLIndividual> nodesR = new HashSet<>();
                 lookFor.getTT_TV_CBR(i, ontology, ns, df, null, nodesR, false, tctrOfR, tvtrOfR, cbrOfR,eqOfR);
-                lookFor.getConnectedEquipment2(i,ontology,ns,df,null,eqClass,eqOfR,r);
+               // lookFor.getConnectedEquipment2(i,ontology,ns,df,null,eqClass,eqOfR,r);
                 AxiomsAdding.addingSeveral(ontology, manager, df, r, tctrOfR, hasTCTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, r, tvtrOfR, hasTVTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, r, cbrOfR, isSwitchedBy);
-                AxiomsAdding.addingSeveral(ontology,manager,df,r,eqOfR,connectedEquipment);
+               // AxiomsAdding.addingSeveral(ontology,manager,df,r,eqOfR,connectedEquipment);
             }
         }
 //////////////////////////////////TT TV and CBR for CAP////////////////////////////////////////////////////////////
@@ -184,11 +188,11 @@ public class zaprosi {
                 List<OWLIndividual> eqOfCp = new ArrayList<>();
                 Collection<OWLIndividual> nodesCp = new HashSet<>();
                 lookFor.getTT_TV_CBR(i, ontology, ns, df, null, nodesCp, false, tctrOfCp, tvtrOfCp, cbrOfCp, eqOfCp);
-                lookFor.getConnectedEquipment2(i,ontology,ns,df,null,eqClass,eqOfCp,c);
+              //  lookFor.getConnectedEquipment2(i,ontology,ns,df,null,eqClass,eqOfCp,c);
                 AxiomsAdding.addingSeveral(ontology, manager, df, c, tctrOfCp, hasTCTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, c, tvtrOfCp, hasTVTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, c, cbrOfCp, isSwitchedBy);
-                AxiomsAdding.addingSeveral(ontology,manager,df,c,eqOfCp,connectedEquipment);
+               // AxiomsAdding.addingSeveral(ontology,manager,df,c,eqOfCp,connectedEquipment);
             }
         }
         ///////////////////////////////////TT TV and CBR fo ShortBus////////////////////////////////////////////////
@@ -203,11 +207,11 @@ public class zaprosi {
                 List<OWLIndividual> eqOfS = new ArrayList<>();
                 Collection<OWLIndividual> nodesS = new HashSet<>();
                 lookFor.getTT_TV_CBR(i, ontology, ns, df, null, nodesS, false, tctrOfS, tvtrOfS, cbrOfS,eqOfS);
-                lookFor.getConnectedEquipment2(i,ontology,ns,df,null,eqClass,eqOfS,s);
+               // lookFor.getConnectedEquipment2(i,ontology,ns,df,null,eqClass,eqOfS,s);
                 AxiomsAdding.addingSeveral(ontology, manager, df, s, tctrOfS, hasTCTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, s, tvtrOfS, hasTVTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, s, cbrOfS, isSwitchedBy);
-                AxiomsAdding.addingSeveral(ontology,manager,df,s,eqOfS,connectedEquipment);
+               // AxiomsAdding.addingSeveral(ontology,manager,df,s,eqOfS,connectedEquipment);
             }
         }
         ///////////////////////////////TT, TV and cbr for Bus///////////////////////////////////////////////////////////
@@ -229,21 +233,11 @@ public class zaprosi {
                 AxiomsAdding.addingSeveral(ontology, manager, df, b, tctrOfB, hasTCTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, b, tvtrOfB, hasTVTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, b, cbrOfB, isSwitchedBy);
-                AxiomsAdding.addingSeveral(ontology,manager,df,b,eqOfB,connectedEquipment);
+               // AxiomsAdding.addingSeveral(ontology,manager,df,b,eqOfB,connectedEquipment);
             }
         }
         //////////////////////////////////////////////////////////////////////////////////////
-//        Set<OWLNamedIndividual> indT = getIndividualByClass.getIndividualofClass(yptrClass, reasoner);
-//        for (OWLNamedIndividual i : indT) {
-//            List<OWLIndividual> eqList = new ArrayList<>();
-//            eqList.add(i);
-//            for (OWLIndividual p : getIndividualFromProperty.getIndivid(i, ontology, hasPTW)) {
-//                Collection<OWLIndividual> indCNp = getIndividualFromProperty.getIndivid(p, ontology, hasCN);
-//                for(OWLIndividual j: indCNp) {
-//                    lookFor.getConnectedEquipment2();
-//                }
-//            }
-//        }
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         SWRLAPIRule rule6 = ruleEngine.createSWRLRule("CN", "ShortBus(?b) ^ hasVoltageLevel(?b,?v) ^ voltageType(?v,?vv) ^ swrlb:equal(?vv,2) -> voltageType(?b, 2)");
@@ -259,7 +253,15 @@ public class zaprosi {
         SWRLAPIRule rule12 = ruleEngine.createSWRLRule("oshinBN2", "AutoTransformers(?x) ^ base(?x,6) -> setOfProtection(?x, 6)");
         SWRLAPIRule rule13 = ruleEngine.createSWRLRule("PDIF_O_forCN", "PowerTransformers(?p) ^ hasTCTR(?p,?t) ^ hasVoltageLevel(?t,?v) ^ voltageType(?v,2) ^ isSwitchedBy(?p,?c) ^ hasTCTR(?c,?t) -> setOfProtection(?p,7)");
         ruleEngine.infer();
-
+///////////////////////////////////////////////////////////////////////////////
+        Set<OWLNamedIndividual> indEq = getIndividualByClass.getIndividualofClass(eqClass, reasoner);
+        for (OWLNamedIndividual i : indEq) {
+            if (!EntitySearcher.getTypes(i,ontology).contains(CBR) && !EntitySearcher.getTypes(i,ontology).contains(SWI)){
+                if (getIndividualFromProperty.getIndivid(i,ontology, addedTo).isEmpty()) {
+                    AxiomsAdding.AddingData(ontology,manager,df,i,0,added);
+                }
+            }
+        }
 
 /////////////////////проверка на защиты////////////////////
 
@@ -765,10 +767,13 @@ public class zaprosi {
         SWRLAPIRule rule15  = ruleEngine.createSWRLRule("mainPr", "Equipment(?e) ^ connectedEquipment(?e, ?c) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ hasVoltageLevel(?c, ?v) ^ voltageType(?v, ?vv) ^ voltageType(?p, ?t) ^ swrlb:equal(?vv, ?t) -> mainProtect(?p, ?c)");
         SWRLAPIRule rule16  = ruleEngine.createSWRLRule("pdifForS", "Equipment(?e) ^ hasShortBus(?e, ?b) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ voltageType(?b, ?v) ^ voltageType(?p, ?t) ^ swrlb:equal(?v, ?t) -> isProtectedBy(?b, ?p)");
         SWRLAPIRule rule17  = ruleEngine.createSWRLRule("mainPrS", "Equipment(?e) ^ hasShortBus(?e, ?b) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ voltageType(?b, ?v) ^ voltageType(?p, ?t) ^ swrlb:equal(?v, ?t) -> mainProtect(?p, ?b)");
-        SWRLAPIRule rule18 = ruleEngine.createSWRLRule("connectedE", "Equipment(?e) ^ connectedEquipment(?e,?c) -> connectedEquipment(?c,?e)");
+        SWRLAPIRule rule18 = ruleEngine.createSWRLRule("connectedE", "Equipment(?e) ^ isSwitchedBy(?e,?b) ^ Equipment(?q) ^ isSwitchedBy(?q,?b) ^ added(?e,0) ^ added(?q,0) ^ hasName(?e, ?x1) ^ hasName(?q, ?z1) ^ swrlb:notEqual(?x1, ?z1) -> connectedEquipment(?e,?q)");
+//        SWRLAPIRule rule19 = ruleEngine.createSWRLRule("addedE", "Equipment(?e) ^ added(?e,0) -> addedE(?e,0)");
+//        SWRLAPIRule rule20 = ruleEngine.createSWRLRule("added2", "Equipment(?e) ^ addedEquipment(?e,?a) -> added(?a,0)");
+
         ruleEngine.infer();
 
-        OutputStream out = new FileOutputStream("C:\\Users\\anast\\Desktop\\ont_pig_1.owl");
+        OutputStream out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_1.owl");
         manager.saveOntology(ontology, out);
     }
 

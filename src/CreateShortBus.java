@@ -31,6 +31,7 @@ public class CreateShortBus {
         OWLObjectProperty hasCN = df.getOWLObjectProperty(IRI.create(ns+"hasCN"));
         OWLObjectProperty hasVoltageLevel = df.getOWLObjectProperty(IRI.create(ns+"hasVoltageLevel"));
         OWLObjectProperty hasBus = df.getOWLObjectProperty(IRI.create(ns+"hasFalseBus"));
+        OWLObjectProperty addedEquipment =  df.getOWLObjectProperty(IRI.create(ns+"addedEquipment"));
         if (nodes.size() >= 2) {
             String name = trans.toStringID();
             String name1 = name.split("#")[1];
@@ -39,7 +40,8 @@ public class CreateShortBus {
             OWLIndividual indShin = df.getOWLNamedIndividual(IRI.create(ns + oshinName));
             AxiomsAdding.AddingClass(ontology,manager,df,indShin,oshClass);
             AxiomsAdding.adding(ontology,manager,df,indShin,j,hasCN);
-            AxiomsAdding.adding(ontology,manager,df,trans,indShin,hasBus);
+           // AxiomsAdding.adding(ontology,manager,df,trans,indShin,hasBus);
+            AxiomsAdding.adding(ontology,manager,df,trans,indShin,addedEquipment);
             AxiomsAdding.adding(ontology,manager,df,indShin,volt,hasVoltageLevel);
             for (OWLIndividual n : nodes) {
                 AxiomsAdding.adding(ontology,manager,df,indShin,n,hasCN);
