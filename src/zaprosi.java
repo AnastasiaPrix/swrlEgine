@@ -246,7 +246,7 @@ public class zaprosi {
         SWRLAPIRule rule9 = ruleEngine.createSWRLRule("Voltage", "ShortBus(?b) ^ hasVoltageLevel(?b,?v) ^ hasVoltage(?v,?vv) -> hasVoltage(?b, ?vv)");
         ruleEngine.infer();
 
-//        SWRLAPIRule rule1 = ruleEngine.createSWRLRule("oshinCN2", "YPTR(?x) ^ ShortBus(?b)^ hasShortBus(?x,?b) ^ hasVoltageLevel(?b,?v) ^ voltageType(?v,2) ^ hasVoltage(?v,?vv) ^ swrlb:greaterThanOrEqual(?vv, 330) -> setOfProtection(?x, 3)");
+        SWRLAPIRule rule1 = ruleEngine.createSWRLRule("oshinCN2", "YPTR(?x) ^ ShortBus(?b)^ hasShortBus(?x,?b) ^ hasVoltageLevel(?b,?v) ^ voltageType(?v,2) ^ hasVoltage(?v,?vv) ^ swrlb:greaterThanOrEqual(?vv, 330) -> setOfProtection(?x, 3)");
         SWRLAPIRule rule2 = ruleEngine.createSWRLRule("oshinCN", "YPTR(?x) ^ ShortBus(?b)^ hasShortBus(?x,?b) ^ hasVoltageLevel(?b,?v) ^ voltageType(?v, 2) -> setOfProtection(?x, 1)");
         SWRLAPIRule rule3 = ruleEngine.createSWRLRule("oshinBN", "AutoTransformers(?x) ^ ShortBus(?b)^ hasShortBus(?x,?b) ^ hasVoltageLevel(?b,?v) ^ voltageType(?v, 1) ^ hasVoltage(?v,220) -> setOfProtection(?x, 4)");
         SWRLAPIRule rule4 = ruleEngine.createSWRLRule("oshinNN", "YPTR(?x) ^ connectedEquipment(?e, ?c) ^ ZREA(?c) -> setOfProtection(?x, 2)");
@@ -763,6 +763,10 @@ public class zaprosi {
             }
         }
 
+//        OutputStream out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_2.owl");
+//        manager.saveOntology(ontology, out);
+
+
         SWRLAPIRule rule14  = ruleEngine.createSWRLRule("pdifForOther", "Equipment(?e) ^ connectedEquipment(?e, ?c) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ hasVoltageLevel(?c, ?v) ^ voltageType(?v, ?vv) ^ voltageType(?p, ?t) ^ swrlb:equal(?vv, ?t) -> isProtectedBy(?c, ?p)");
         SWRLAPIRule rule15  = ruleEngine.createSWRLRule("mainPr", "Equipment(?e) ^ connectedEquipment(?e, ?c) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ hasVoltageLevel(?c, ?v) ^ voltageType(?v, ?vv) ^ voltageType(?p, ?t) ^ swrlb:equal(?vv, ?t) -> mainProtect(?p, ?c)");
         SWRLAPIRule rule16  = ruleEngine.createSWRLRule("pdifForS", "Equipment(?e) ^ hasShortBus(?e, ?b) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ voltageType(?b, ?v) ^ voltageType(?p, ?t) ^ swrlb:equal(?v, ?t) -> isProtectedBy(?b, ?p)");
@@ -775,6 +779,6 @@ public class zaprosi {
 
         OutputStream out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_1.owl");
         manager.saveOntology(ontology, out);
-    }
+   }
 
 }

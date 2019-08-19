@@ -10,16 +10,16 @@ public class metTR {
     private static List<String> cNN;
     private static List<String> cCN;
 /////////// !!!!!!!!!!!!!!!!!!!
-   // public static void MetodTerm(TPowerTransformer powerTransformer, Individual inda, ObjectProperty hasCN, ObjectProperty hasTerminal, OntModel model, String NS, DatatypeProperty hasName, Set<Individual> namesIndividual) {
+//    public static void MetodTerm(TPowerTransformer powerTransformer, Individual inda, ObjectProperty hasCN, ObjectProperty hasTerminal, OntModel model, String NS, DatatypeProperty hasName, Set<Individual> namesIndividual) {
 /////////// !!!!!!!!!!!!!!!!!!!
 
-        public static void MetodTerm(TPowerTransformer powerTransformer, Individual inda, ObjectProperty hasCN, OntModel model, String NS, DatatypeProperty hasName, Set<Individual> namesIndividual) {
+        public static void MetodTerm(TPowerTransformer powerTransformer, Individual inda, ObjectProperty hasCN, OntModel model, String NS, Set<Individual> namesIndividual) {
 
             // Terminals = conductingEquipment.getTerminal();
 
         OntClass voltageLevelClass = model.getOntClass(NS + "VoltageLevel"); ///ON VOOBSHE NUGEN??????
             /////////// !!!!!!!!!!!!!!!!!!!
-        // OntClass TerminalClass = model.getOntClass(NS + "Terminal");
+       //  OntClass TerminalClass = model.getOntClass(NS + "Terminal");
             /////////// !!!!!!!!!!!!!!!!!!!
         OntClass connectivityNodeClass = model.getOntClass(NS + "ConnectivityNode");
         OntClass PTWClass = model.getOntClass(NS + "PTW");
@@ -51,13 +51,13 @@ public class metTR {
             inda.addProperty(hasVoltage,voltage1, XSDDatatype.XSDinteger);
             inda.addProperty(hasPTW, PTWIndividual);
             for (TTerminal ptwTerminals : winding.getTerminal()) {
-                String term = ptwTerminals.getName() + "_" + winding.getName();
+               String term = ptwTerminals.getName() + "_" + winding.getName() + "_" +powerTransformer.getName();
                 String CN = winding.getTerminal().get(0).getConnectivityNode();
                 Individual CNDIS = model.createIndividual(NS + CN, connectivityNodeClass);
                 namesIndividual.add(CNDIS);
                 /////////// !!!!!!!!!!!!!!!!!!!
-              // Individual ptwTerminalIndividual = model.createIndividual(NS + term, TerminalClass);
-               // namesIndividual.add(ptwTerminalIndividual);
+             // Individual ptwTerminalIndividual = model.createIndividual(NS + term, TerminalClass);
+            //   namesIndividual.add(ptwTerminalIndividual);
                 /////////// !!!!!!!!!!!!!!!!!!!
                 PTWIndividual.addProperty(hasCN, CNDIS);
                 /////////// !!!!!!!!!!!!!!!!!!!
