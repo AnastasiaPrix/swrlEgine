@@ -10,12 +10,6 @@ public class getValuesFromProperty {
         Collection<OWLLiteral> x = null;
         System.out.println("Values from Property : "+ property);
         x =  EntitySearcher.getDataPropertyValues(ind, property, ont);
-//        for (OWLLiteral j : x) {
-////                        System.out.println("Individual from Property : ");
-//            System.out.println("##############");
-//            System.out.println(j);
-//            System.out.println("##############");
-////                        //  }
-//        }
+
         return x;}
 }

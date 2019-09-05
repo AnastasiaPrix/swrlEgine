@@ -42,4 +42,13 @@ public class AxiomsAdding {
             manager.applyChange(Ad);
         }
     }
+    public static void changingAxiomsData (OWLOntology ont, OWLOntologyManager manager, OWLDataFactory df, OWLIndividual ind1, int value, int value2, OWLDataProperty property){
+        OWLAxiom Ax = df.getOWLDataPropertyAssertionAxiom(property,ind1,value);
+        RemoveAxiom Rem= new RemoveAxiom(ont,Ax);
+        manager.applyChange(Rem);
+        OWLAxiom Ax2 = df.getOWLDataPropertyAssertionAxiom(property,ind1,value2);
+        AddAxiom Ad= new AddAxiom(ont,Ax2);
+        manager.applyChange(Ad);
+
+    }
 }

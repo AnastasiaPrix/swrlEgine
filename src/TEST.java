@@ -27,7 +27,7 @@ public class TEST {
     public static void Start() {
         // создание пустой модели
         OntModel model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MINI_RULE_INF);
-        String inputOntFilename = "C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont1_1_4.rdf";
+        String inputOntFilename = "C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont1_1_6.rdf";
 
 //        ипользование менеджера файлов для нахождения входного файла
         InputStream in = FileManager.get().open(inputOntFilename);
