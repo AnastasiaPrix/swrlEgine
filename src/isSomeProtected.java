@@ -7,7 +7,7 @@ import java.util.List;
 public class isSomeProtected {
    // public static boolean f = false;
     public  static OWLIndividual x = null;
-    public static boolean IsProtected(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df, List<OWLIndividual> listEq){
+    public static boolean IsProtected(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df, List<OWLIndividual> listEq, OWLIndividual startEq){
        // OWLIndividual x = null;
         boolean f = false;
         OWLObjectProperty cnOf = df.getOWLObjectProperty(IRI.create(ns+"cnOf"));
@@ -22,7 +22,7 @@ public class isSomeProtected {
             Collection<OWLClassExpression> y =  EntitySearcher.getTypes(i, ont);
             if (!(y.contains(XSWI)||y.contains(TCTR)||y.contains(TVTR)||y.contains(ZREA)|| y.contains(ZCAB)||y.contains(CBR))) {
                 f = true; }
-            if(y.contains(ZREA)||y.contains(ZCAB)){
+            if((y.contains(ZREA)||y.contains(ZCAB)) && i != startEq){
                 listEq.add(i);
             }
         }

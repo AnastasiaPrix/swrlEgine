@@ -300,6 +300,7 @@ public class TEST {
             }
         }
         int k = 0;
+
         for (Individual i : namesIndividual) {
             k++;
             i.addProperty(hasName,k+"", XSDDatatype.XSDinteger);
