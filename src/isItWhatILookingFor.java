@@ -1,6 +1,7 @@
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.search.EntitySearcher;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -12,9 +13,11 @@ public class isItWhatILookingFor {
         OWLIndividual x = null;
         for( OWLIndividual i: EntitySearcher.getObjectPropertyValues(ind, cnOf, ont)) {
             Collection<OWLClassExpression> gg = EntitySearcher.getTypes(i, ont);
-            if(gg.contains(clas) && !clasCollection.contains(i) ){
-                clasCollection.add(i);
+            if(gg.contains(clas) ){
                 x = i;
+                if (!clasCollection.contains(i)){
+                    clasCollection.add(i);
+                }
             }
         }
     return x;}
@@ -24,18 +27,21 @@ public class isItWhatILookingFor {
         OWLClassExpression TVTR = df.getOWLClass(IRI.create(ns+"TVTR"));
         OWLClassExpression CBR = df.getOWLClass(IRI.create(ns+"XCBR"));
         OWLClassExpression SWI = df.getOWLClass(IRI.create(ns+"XSWI"));
-        boolean f = false;
+        OWLDataProperty breakerWithDis = df.getOWLDataProperty(IRI.create(ns+"breakerWithDis"));
+        Collection<OWLLiteral> listProperty = new ArrayList<>();
+        boolean f = true;
         boolean x = false;
         for( OWLIndividual i: EntitySearcher.getObjectPropertyValues(ind, cnOf, ont)) {
             Collection<OWLClassExpression> gg = EntitySearcher.getTypes(i, ont);
             if (gg.contains(CBR)) {
                 x = true;
+                listProperty = getValuesFromProperty.getValues(i,ont,breakerWithDis);
                 if (!listCBR.contains(i)){
                         listCBR.add(i);}
             }
             if(gg.contains(TCTR) && !listTCTR.contains(i)){
                 listTCTR.add(i);
-                f =true;
+                f =false;
             }
             if(gg.contains(TVTR) && !listTVTR.contains(i)){
                 listTVTR.add(i);
@@ -43,8 +49,10 @@ public class isItWhatILookingFor {
 
         }
         if (x && f){
-            System.out.println("FOUND BREAKER WITHOUT TCTR!!!!!!!" + ind);
-            lookFor.getSomething(ind,ont,ns,df,null,false, TCTR,listTCTR);
+            if (listProperty.isEmpty()){
+                System.out.println("FOUND BREAKER WITHOUT TCTR!!!!!!!" + ind);
+                lookFor.getSomething(ind,ont,ns,df,null,false, TCTR,listTCTR);
+            }
         }
 
         return x;

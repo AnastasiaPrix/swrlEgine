@@ -257,7 +257,7 @@ public class zaprosi {
         Set<OWLNamedIndividual> indBus = getIndividualByClass.getIndividualofClass(busClass, reasoner);
         for (OWLNamedIndividual b : indBus) {
             Collection<OWLIndividual> indCnB = getIndividualFromProperty.getIndivid(b, ontology, hasCN);
-            Collection<OWLLiteral> typeB = getValuesFromProperty.getValues(b, ontology, busType);
+            // Collection<OWLLiteral> typeB = getValuesFromProperty.getValues(b, ontology, busType);
             for (OWLIndividual j : indCnB) {
                 List<OWLIndividual> tctrOfB = new ArrayList<>();
                 List<OWLIndividual> tvtrOfB = new ArrayList<>();
@@ -265,10 +265,11 @@ public class zaprosi {
                 List<OWLIndividual> eqOfB = new ArrayList<>();
                 Collection<OWLIndividual> nodesBus = new HashSet<>();
                 lookFor.getTT_TV_CBR(j, ontology, ns, df, null, nodesBus, false, tctrOfB, tvtrOfB, cbrOfB, eqOfB, b);
+                 checkForCBRWithDis.hasConectionWithDis(j,ontology,ns,df,cbrOfB,tctrOfB);
                // lookFor.getConnectedEquipment2(j,ontology,ns,df,null,eqClass,eqOfB,b);
-                if (!typeB.isEmpty()) {
-                    lookFor.getTT_TV_CBR2(j, ontology, ns, df, null, false, tctrOfB, tvtrOfB, cbrOfB);
-                }
+//                if (!typeB.isEmpty()) {
+//                    lookFor.getTT_TV_CBR2(j, ontology, ns, df, null, false, tctrOfB, tvtrOfB, cbrOfB);
+//                }
                 AxiomsAdding.addingSeveral(ontology, manager, df, b, tctrOfB, hasTCTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, b, tvtrOfB, hasTVTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, b, cbrOfB, isSwitchedBy);
@@ -893,7 +894,7 @@ public class zaprosi {
             }
         }
 
-        // SWRLAPIRule rule32 = ruleEngine.createSWRLRule()
+        // SWRLAPIRule rule32 = ruleEngine.createSWRLRule("tctrForReact","ZREA(?r) ^ ");
 
         OutputStream out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_10_09.owl");
         manager.saveOntology(ontology, out);
