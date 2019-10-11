@@ -14,7 +14,7 @@ public class lookFor {
 
 
     public static void getSomething(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df, OWLIndividual basInd, boolean f1, OWLClassExpression clas, List<OWLIndividual> clasCollection) {
-
+        List<OWLIndividual> listEq = new ArrayList<>();
         System.out.println("Welcome to get!!!" + ind);
         //  List<OWLIndividual> listEq = new ArrayList<>();
         x = isItWhatILookingFor.hasNecessary(ind, ont, ns, df, clas, clasCollection);
@@ -22,9 +22,9 @@ public class lookFor {
             System.out.println("Found  ");
             System.out.println(ind + " hasEquipment " + x);
         }
-//       else if(isSomeProtected.IsProtected(ind, ont, ns, df,listEq) && f1){
-//            System.out.println("found protected Eqipment with" + ind );
-//        }
+       else if(isSomeProtected.IsProtected(ind, ont, ns, df,listEq, null) && f1){
+            System.out.println("found protected Eqipment with" + ind );
+        }
         else {
             f1 = true;
             for (OWLIndividual i : connectionWith.hasConnection(ind, ont, ns, df)) {

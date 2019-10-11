@@ -21,7 +21,7 @@ public class zaprosi {
 
     public static void main(String[] args) throws OWLOntologyCreationException, FileNotFoundException, OWLOntologyStorageException, SWRLBuiltInException, SWRLParseException {
 
-        // TEST.Start();
+        //TEST.Start();
 
 
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -41,13 +41,13 @@ public class zaprosi {
 
         int k = 0;
 
-        String ns = "http://www.semanticweb.org/anast/ontologies/2019/3/untitled-ontology-22#";
+        String ns = ontology.getOntologyID().getOntologyIRI().get().toString()+"#";
         OWLIndividual trans = null;
         OWLDataFactory df = manager.getOWLDataFactory();
         OWLClass yptrClass = df.getOWLClass(IRI.create(ns + "YPTR"));
-        OWLClass ofPowerTransformers = df.getOWLClass(IRI.create(ns+"ofPowerTransformers"));
-        OWLClass ofLines = df.getOWLClass(IRI.create(ns+"ofLines"));
-        OWLObjectProperty isLocated = df.getOWLObjectProperty(IRI.create(ns+"isLocated"));
+        OWLClass ofPowerTransformers = df.getOWLClass(IRI.create(ns + "ofPowerTransformers"));
+        OWLClass ofLines = df.getOWLClass(IRI.create(ns + "ofLines"));
+        OWLObjectProperty isLocated = df.getOWLObjectProperty(IRI.create(ns + "isLocated"));
         OWLClass eqClass = df.getOWLClass(IRI.create(ns + "Equipment"));
         OWLClass linesClass = df.getOWLClass(IRI.create(ns + "Lines"));
         OWLClass CBR = df.getOWLClass(IRI.create(ns + "XCBR"));
@@ -58,7 +58,7 @@ public class zaprosi {
         OWLClass TCTR = df.getOWLClass(IRI.create(ns + "TCTR"));
         OWLClass capClass = df.getOWLClass(IRI.create(ns + "ZCAP"));
         OWLClassExpression TVTR_E = df.getOWLClass(IRI.create(ns + "TVTR"));
-        OWLDataProperty addedShortBus = df.getOWLDataProperty(IRI.create(ns+"addedShortBus"));
+        OWLDataProperty addedShortBus = df.getOWLDataProperty(IRI.create(ns + "addedShortBus"));
         OWLObjectProperty hasCN = df.getOWLObjectProperty(IRI.create(ns + "hasCN"));
         OWLObjectProperty ptwOf = df.getOWLObjectProperty(IRI.create(ns + "ptwOf"));
         OWLObjectProperty hasPTW = df.getOWLObjectProperty(IRI.create(ns + "hasPTW"));
@@ -69,8 +69,8 @@ public class zaprosi {
         OWLObjectProperty tctrFirst = df.getOWLObjectProperty(IRI.create(ns + "tctrFirst"));
         OWLObjectProperty hasBus = df.getOWLObjectProperty(IRI.create(ns + "hasShortBus"));
         OWLObjectProperty hasFalseBus = df.getOWLObjectProperty(IRI.create(ns + "hasFalseBus"));
-        OWLObjectProperty mainProtect =  df.getOWLObjectProperty(IRI.create(ns+"mainProtect"));
-        OWLObjectProperty addedEquipment =  df.getOWLObjectProperty(IRI.create(ns+"addedEquipment"));
+        OWLObjectProperty mainProtect = df.getOWLObjectProperty(IRI.create(ns + "mainProtect"));
+        OWLObjectProperty addedEquipment = df.getOWLObjectProperty(IRI.create(ns + "addedEquipment"));
         OWLObjectProperty hasVoltageLevel = df.getOWLObjectProperty(IRI.create(ns + "hasVoltageLevel"));
         OWLObjectProperty isSwitchedBy = df.getOWLObjectProperty(IRI.create(ns + "isSwitchedBy"));
         OWLObjectProperty connectedWithCbr = df.getOWLObjectProperty(IRI.create(ns + "connectedWithCbr"));
@@ -81,25 +81,23 @@ public class zaprosi {
         OWLDataProperty use = df.getOWLDataProperty(IRI.create(ns + "use"));
         OWLDataProperty iflWithCable = df.getOWLDataProperty(IRI.create(ns + "iflWithCable"));
         OWLClass busClass = df.getOWLClass(IRI.create(ns + "Bus"));
-        OWLDataProperty hasAddedBus = df.getOWLDataProperty(IRI.create(ns+"hasAddedBus"));
+        OWLDataProperty hasAddedBus = df.getOWLDataProperty(IRI.create(ns + "hasAddedBus"));
         OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
         OWLReasoner reasoner = reasonerFactory.createReasoner(ontology);
         String ptwClass = "PTW";
         OWLClass PTW = df.getOWLClass(IRI.create(ns + "PTW"));
         OWLClass oshClass = df.getOWLClass(IRI.create(ns + "ShortBus"));
-        OWLObjectProperty connectedEquipment = df.getOWLObjectProperty(IRI.create(ns+"connectedEquipment"));
-        OWLObjectProperty isProtectedBy = df.getOWLObjectProperty(IRI.create(ns+"isProtectedBy"));
-        OWLClass VoltageLevel = df.getOWLClass(IRI.create(ns+"VoltageLevel"));
-
-
+        OWLObjectProperty connectedEquipment = df.getOWLObjectProperty(IRI.create(ns + "connectedEquipment"));
+        OWLObjectProperty isProtectedBy = df.getOWLObjectProperty(IRI.create(ns + "isProtectedBy"));
+        OWLClass VoltageLevel = df.getOWLClass(IRI.create(ns + "VoltageLevel"));
 
 
         /////////////////////////////////////////////Задание типа РУ (с шинамми или ошиновками)///////////////////////
         Set<OWLNamedIndividual> indVolt = getIndividualByClass.getIndividualofClass(VoltageLevel, reasoner);
-        for (OWLNamedIndividual v: indVolt){
-            Collection<OWLLiteral> listHasBus = getValuesFromProperty.getValues(v,ontology,hasBus_);
-            if (listHasBus.isEmpty()){
-                AxiomsAdding.AddingData(ontology,manager,df,v,0,hasBus_);
+        for (OWLNamedIndividual v : indVolt) {
+            Collection<OWLLiteral> listHasBus = getValuesFromProperty.getValues(v, ontology, hasBus_);
+            if (listHasBus.isEmpty()) {
+                AxiomsAdding.AddingData(ontology, manager, df, v, 0, hasBus_);
             }
         }
 
@@ -119,7 +117,7 @@ public class zaprosi {
                 trans = t;
             }
             Collection<OWLLiteral> listBusT = getValuesFromProperty.getValues(volt, ontology, hasBus_);
-            for (OWLLiteral l: listBusT){
+            for (OWLLiteral l : listBusT) {
                 valueBus = l.parseInteger();
             }
             for (OWLIndividual j : indCN) {
@@ -129,11 +127,10 @@ public class zaprosi {
                 List<OWLIndividual> tvtrOfT = new ArrayList<>();
                 List<OWLIndividual> eqOfT = new ArrayList<>();
                 List<OWLIndividual> adOfT = new ArrayList<>();
-                lookFor.getTT_TV_CBR(j, ontology, ns, df, bI, nodes, false, tctrOfT, tvtrOfT, cbrOfT, adOfT,trans);
-                if (valueBus==1){
+                lookFor.getTT_TV_CBR(j, ontology, ns, df, bI, nodes, false, tctrOfT, tvtrOfT, cbrOfT, adOfT, trans);
+                if (valueBus == 1) {
                     CreateShortBus.CreateFalseBus(ontology, manager, df, ns, j, trans, volt, nodes, k);
-                }
-                else{
+                } else {
                     CreateShortBus.CreateBus(ontology, manager, df, ns, j, trans, volt, nodes, k);
                 }
                 AxiomsAdding.adding(ontology, manager, df, trans, tctrOfT.get(0), tctrFirst);
@@ -141,8 +138,8 @@ public class zaprosi {
                 AxiomsAdding.addingSeveral(ontology, manager, df, trans, tctrOfT, hasTCTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, trans, tvtrOfT, hasTVTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, trans, cbrOfT, isSwitchedBy);
-                System.out.println("!!!!!!!TRANS "+ eqOfT.size());
-                AxiomsAdding.addingSeveral(ontology,manager,df,trans,adOfT,addedEquipment);
+                System.out.println("!!!!!!!TRANS " + eqOfT.size());
+                AxiomsAdding.addingSeveral(ontology, manager, df, trans, adOfT, addedEquipment);
                 k++;
             }
         }
@@ -152,10 +149,10 @@ public class zaprosi {
             int linesValue = -1;
             Collection<OWLIndividual> indCnL = getIndividualFromProperty.getIndivid(l, ontology, hasCN);
             Collection<OWLIndividual> voltL = getIndividualFromProperty.getIndivid(l, ontology, hasVoltageLevel);
-            Collection<OWLLiteral> iflList = getValuesFromProperty.getValues(l,ontology,iflWithCable);
+            Collection<OWLLiteral> iflList = getValuesFromProperty.getValues(l, ontology, iflWithCable);
             for (OWLIndividual v : voltL) {
                 Collection<OWLLiteral> b = getValuesFromProperty.getValues(v, ontology, hasBus_);
-                for (OWLLiteral vl: b){
+                for (OWLLiteral vl : b) {
                     linesValue = vl.parseInteger();
                 }
                 for (OWLIndividual i : indCnL) {
@@ -164,17 +161,18 @@ public class zaprosi {
                     List<OWLIndividual> cbrOfL = new ArrayList<>();
                     List<OWLIndividual> adOfL = new ArrayList<>();
                     Collection<OWLIndividual> nodesLines = new HashSet<>();
-                    lookFor.getTT_TV_CBR(i, ontology, ns, df, null, nodesLines, false, tctrOfL, tvtrOfL, cbrOfL, adOfL,l);
-                    if (tctrOfL.size()>1) {
-                    AxiomsAdding.adding(ontology, manager, df, l, tctrOfL.get(0), tctrFirst);
-                    tctrOfL.remove(0); }
+                    lookFor.getTT_TV_CBR(i, ontology, ns, df, null, nodesLines, false, tctrOfL, tvtrOfL, cbrOfL, adOfL, l);
+                    if (tctrOfL.size() > 1) {
+                        AxiomsAdding.adding(ontology, manager, df, l, tctrOfL.get(0), tctrFirst);
+                        tctrOfL.remove(0);
+                    }
                     AxiomsAdding.addingSeveral(ontology, manager, df, l, tctrOfL, hasTCTR);
                     AxiomsAdding.addingSeveral(ontology, manager, df, l, tvtrOfL, hasTVTR);
                     AxiomsAdding.addingSeveral(ontology, manager, df, l, cbrOfL, isSwitchedBy);
                     if (iflList.isEmpty()) {
-                    AxiomsAdding.addingSeveral(ontology,manager,df,l,adOfL,addedEquipment);
+                        AxiomsAdding.addingSeveral(ontology, manager, df, l, adOfL, addedEquipment);
                     }
-                    if (linesValue==0) {
+                    if (linesValue == 0) {
                         CreateShortBus.CreateBus(ontology, manager, df, ns, i, l, v, nodesLines, k);
                     } else {
                         CreateShortBus.CreateFalseBus(ontology, manager, df, ns, i, l, v, nodesLines, k);
@@ -207,13 +205,10 @@ public class zaprosi {
                 List<OWLIndividual> cbrOfR = new ArrayList<>();
                 List<OWLIndividual> eqOfR = new ArrayList<>();
                 Collection<OWLIndividual> nodesR = new HashSet<>();
-                lookFor.getTT_TV_CBR(i, ontology, ns, df, null, nodesR, false, tctrOfR, tvtrOfR, cbrOfR,eqOfR, r);
-               // lookFor.getConnectedEquipment2(i,ontology,ns,df,null,eqClass,eqOfR,r);
+                lookFor.getTT_TV_CBR(i, ontology, ns, df, null, nodesR, false, tctrOfR, tvtrOfR, cbrOfR, eqOfR, r);
                 AxiomsAdding.addingSeveral(ontology, manager, df, r, tctrOfR, hasTCTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, r, tvtrOfR, hasTVTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, r, cbrOfR, isSwitchedBy);
-               // AxiomsAdding.addingSeveral(ontology,manager,df,trans,eqOfR,addedEquipment);
-               // AxiomsAdding.addingSeveral(ontology,manager,df,r,eqOfR,connectedEquipment);
             }
         }
 //////////////////////////////////TT TV and CBR for CAP////////////////////////////////////////////////////////////
@@ -227,11 +222,9 @@ public class zaprosi {
                 List<OWLIndividual> eqOfCp = new ArrayList<>();
                 Collection<OWLIndividual> nodesCp = new HashSet<>();
                 lookFor.getTT_TV_CBR(i, ontology, ns, df, null, nodesCp, false, tctrOfCp, tvtrOfCp, cbrOfCp, eqOfCp, c);
-              //  lookFor.getConnectedEquipment2(i,ontology,ns,df,null,eqClass,eqOfCp,c);
                 AxiomsAdding.addingSeveral(ontology, manager, df, c, tctrOfCp, hasTCTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, c, tvtrOfCp, hasTVTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, c, cbrOfCp, isSwitchedBy);
-               // AxiomsAdding.addingSeveral(ontology,manager,df,c,eqOfCp,connectedEquipment);
             }
         }
         ///////////////////////////////////TT TV and CBR fo ShortBus////////////////////////////////////////////////
@@ -245,19 +238,16 @@ public class zaprosi {
                 List<OWLIndividual> cbrOfS = new ArrayList<>();
                 List<OWLIndividual> eqOfS = new ArrayList<>();
                 Collection<OWLIndividual> nodesS = new HashSet<>();
-                lookFor.getTT_TV_CBR(i, ontology, ns, df, null, nodesS, false, tctrOfS, tvtrOfS, cbrOfS,eqOfS,s);
-               // lookFor.getConnectedEquipment2(i,ontology,ns,df,null,eqClass,eqOfS,s);
+                lookFor.getTT_TV_CBR(i, ontology, ns, df, null, nodesS, false, tctrOfS, tvtrOfS, cbrOfS, eqOfS, s);
                 AxiomsAdding.addingSeveral(ontology, manager, df, s, tctrOfS, hasTCTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, s, tvtrOfS, hasTVTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, s, cbrOfS, isSwitchedBy);
-               // AxiomsAdding.addingSeveral(ontology,manager,df,s,eqOfS,connectedEquipment);
             }
         }
         ///////////////////////////////TT, TV and cbr for Bus///////////////////////////////////////////////////////////
         Set<OWLNamedIndividual> indBus = getIndividualByClass.getIndividualofClass(busClass, reasoner);
         for (OWLNamedIndividual b : indBus) {
             Collection<OWLIndividual> indCnB = getIndividualFromProperty.getIndivid(b, ontology, hasCN);
-            // Collection<OWLLiteral> typeB = getValuesFromProperty.getValues(b, ontology, busType);
             for (OWLIndividual j : indCnB) {
                 List<OWLIndividual> tctrOfB = new ArrayList<>();
                 List<OWLIndividual> tvtrOfB = new ArrayList<>();
@@ -265,22 +255,17 @@ public class zaprosi {
                 List<OWLIndividual> eqOfB = new ArrayList<>();
                 Collection<OWLIndividual> nodesBus = new HashSet<>();
                 lookFor.getTT_TV_CBR(j, ontology, ns, df, null, nodesBus, false, tctrOfB, tvtrOfB, cbrOfB, eqOfB, b);
-                 checkForCBRWithDis.hasConectionWithDis(j,ontology,ns,df,cbrOfB,tctrOfB);
-               // lookFor.getConnectedEquipment2(j,ontology,ns,df,null,eqClass,eqOfB,b);
-//                if (!typeB.isEmpty()) {
-//                    lookFor.getTT_TV_CBR2(j, ontology, ns, df, null, false, tctrOfB, tvtrOfB, cbrOfB);
-//                }
+                checkForCBRWithDis.hasConectionWithDis(j, ontology, ns, df, cbrOfB, tctrOfB);
                 AxiomsAdding.addingSeveral(ontology, manager, df, b, tctrOfB, hasTCTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, b, tvtrOfB, hasTVTR);
                 AxiomsAdding.addingSeveral(ontology, manager, df, b, cbrOfB, isSwitchedBy);
-               // AxiomsAdding.addingSeveral(ontology,manager,df,b,eqOfB,connectedEquipment);
-            }
+             }
         }
         //////////////////////////////////////////////////////////////////////////////////////
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        SWRLAPIRule ruleL = ruleEngine.createSWRLRule("addedToRUWithShortBus","Equipment(?e) ^ hasVoltageLevel(?e,?v) ^ hasBus(?v,0) ^ hasShortBus(?e,?b) -> addedShortBus(?e,1)");
+        SWRLAPIRule ruleL = ruleEngine.createSWRLRule("addedToRUWithShortBus", "Equipment(?e) ^ hasVoltageLevel(?e,?v) ^ hasBus(?v,0) ^ hasShortBus(?e,?b) -> addedShortBus(?e,1)");
         SWRLAPIRule rule6 = ruleEngine.createSWRLRule("CN", "ShortBus(?b) ^ hasVoltageLevel(?b,?v) ^ voltageType(?v,?vv) ^ swrlb:equal(?vv,2) -> voltageType(?b, 2)");
         SWRLAPIRule rule7 = ruleEngine.createSWRLRule("BN", "ShortBus(?b) ^ hasVoltageLevel(?b,?v) ^ voltageType(?v,?vv) ^ swrlb:equal(?vv,1) -> voltageType(?b, 1)");
         SWRLAPIRule rule8 = ruleEngine.createSWRLRule("NN", "ShortBus(?b) ^ hasVoltageLevel(?b,?v) ^ voltageType(?v,3) -> voltageType(?b, 3)");
@@ -291,9 +276,9 @@ public class zaprosi {
         SWRLAPIRule rule2 = ruleEngine.createSWRLRule("oshinCN", "YPTR(?x) ^ ShortBus(?b)^ addedEquipment(?x,?b) ^ hasVoltageLevel(?b,?v) ^ voltageType(?v, 2) -> setOfProtection(?x, 1)");
         SWRLAPIRule rule3 = ruleEngine.createSWRLRule("oshinBN", "AutoTransformers(?x) ^ ShortBus(?b)^ addedEquipment(?x,?b) ^ hasVoltageLevel(?b,?v) ^ voltageType(?v, 1) ^ hasVoltage(?v,220) -> setOfProtection(?x, 4)");
         SWRLAPIRule rule4 = ruleEngine.createSWRLRule("oshinNN", "YPTR(?x) ^ addedEquipment(?e, ?c) ^ ZREA(?c) -> setOfProtection(?x, 2)");
-     //   SWRLAPIRule rule12 = ruleEngine.createSWRLRule("oshinBN2", "AutoTransformers(?x) ^ base(?x,6) -> setOfProtection(?x, 6)");
-        SWRLAPIRule rule12 = ruleEngine.createSWRLRule("oshinBN2","YPTR(?x) ^ hasVoltageLevel(?x, ?v) ^ voltageType(?v, 1) ^ hasVoltage(?v, ?p) ^ swrlb:greaterThanOrEqual(?p, 330) -> setOfProtection(?x,6) ");
-      //  SWRLAPIRule rule13 = ruleEngine.createSWRLRule("PDIF_O_forCN", "PowerTransformers(?p) ^ hasTCTR(?p,?t) ^ hasVoltageLevel(?t,?v) ^ voltageType(?v,2) ^ isSwitchedBy(?p,?c) ^ hasTCTR(?c,?t) -> setOfProtection(?p,7)");
+        //   SWRLAPIRule rule12 = ruleEngine.createSWRLRule("oshinBN2", "AutoTransformers(?x) ^ base(?x,6) -> setOfProtection(?x, 6)");
+        SWRLAPIRule rule12 = ruleEngine.createSWRLRule("oshinBN2", "YPTR(?x) ^ hasVoltageLevel(?x, ?v) ^ voltageType(?v, 1) ^ hasVoltage(?v, ?p) ^ swrlb:greaterThanOrEqual(?p, 330) -> setOfProtection(?x,6) ");
+        //  SWRLAPIRule rule13 = ruleEngine.createSWRLRule("PDIF_O_forCN", "PowerTransformers(?p) ^ hasTCTR(?p,?t) ^ hasVoltageLevel(?t,?v) ^ voltageType(?v,2) ^ isSwitchedBy(?p,?c) ^ hasTCTR(?c,?t) -> setOfProtection(?p,7)");
         ruleEngine.infer();
 //////////////////////////////////добавление свойств для составления сетки оборудования (связей) /////////////////////
         Set<OWLNamedIndividual> indEq = getIndividualByClass.getIndividualofClass(eqClass, reasoner);
@@ -303,11 +288,11 @@ public class zaprosi {
                     AxiomsAdding.AddingData(ontology, manager, df, i, 0, added);
                 }
             }
-            Collection<OWLIndividual> listV = getIndividualFromProperty.getIndivid(i,ontology,hasVoltageLevel);
-            for (OWLIndividual v: listV) {
-                Collection<OWLLiteral> listValueB = getValuesFromProperty.getValues(v,ontology,hasBus_);
-                for (OWLLiteral l: listValueB) {
-                    if (l.parseInteger() == 0){
+            Collection<OWLIndividual> listV = getIndividualFromProperty.getIndivid(i, ontology, hasVoltageLevel);
+            for (OWLIndividual v : listV) {
+                Collection<OWLLiteral> listValueB = getValuesFromProperty.getValues(v, ontology, hasBus_);
+                for (OWLLiteral l : listValueB) {
+                    if (l.parseInteger() == 0) {
                         if (getIndividualFromProperty.getIndivid(i, ontology, hasBus).isEmpty()) {
                             AxiomsAdding.AddingData(ontology, manager, df, i, 0, addedShortBus);
                         }
@@ -505,11 +490,6 @@ public class zaprosi {
         techProtectionR.add(PGAS_R);
 
 
-
-
-
-
-
         /////////////////////protectionList/////////////////
 
         Map<Integer, List<OWLClass>> protectionOfLines1 = new HashMap<>();
@@ -573,7 +553,7 @@ public class zaprosi {
         base1.add(PDIF_T);
 
         List<OWLClass> base2 = new ArrayList<>();
-       // base2.add(PDIF_T);
+        // base2.add(PDIF_T);
 //        base2.add(PTC_T);
 //        base2.add(PTCN);
 //        base2.add(PTC_T);
@@ -603,7 +583,7 @@ public class zaprosi {
         base5.add(PTCN);
         base5.add(PTC_T);
         base5.add(PTCN);
-       // base5.add(PDIF_T);
+        // base5.add(PDIF_T);
 
         List<OWLClass> base6 = new ArrayList<>();
 //        base6.add(PDIF_T);
@@ -628,7 +608,7 @@ public class zaprosi {
         protectionOfTrans.put(4, base4);
         protectionOfTrans.put(5, base5);
         protectionOfTrans.put(6, base6);
-       // protectionOfTrans.put(7, base7);
+        // protectionOfTrans.put(7, base7);
 
         List<OWLClass> set0 = new ArrayList<>();
         set0.add(PCRI_V);
@@ -727,13 +707,13 @@ public class zaprosi {
             int baseNumber = -1;
             Collection<OWLLiteral> setBase = getValuesFromProperty.getValues(i, ontology, base);
             Collection<OWLLiteral> setVar = getValuesFromProperty.getValues(i, ontology, setOf);
-            Collection<OWLLiteral> iflList = getValuesFromProperty.getValues(i,ontology,iflWithCable);
+            Collection<OWLLiteral> iflList = getValuesFromProperty.getValues(i, ontology, iflWithCable);
             for (OWLLiteral n : setBase) {
                 baseNumber = n.parseInteger();
                 List<OWLClass> protectVar = protectionOfLines1.get(baseNumber);
                 Collection<OWLLiteral> setAdded = getValuesFromProperty.getValues(i, ontology, added);
-                for (OWLLiteral a: setAdded){
-                    if ( a.parseInteger() == 0 && iflList.isEmpty()){
+                for (OWLLiteral a : setAdded) {
+                    if (a.parseInteger() == 0 && iflList.isEmpty()) {
                         k = CreateComplectOfProtection.CreateComplect(i, ontology, ns, protectVar, df, manager, k, mProtectionL, rProtectionL, techProtectionL);
                     }
                 }
@@ -749,7 +729,7 @@ public class zaprosi {
                         k++;
                     }
                 }
-            } else if( baseNumber!=2 ) {
+            } else if (baseNumber != 2) {
                 CreateProtectionIndivid.CreateProtection(i, ontology, ns, protectionLines, df, manager, variant3, k, mProtectionL, rProtectionL, techProtectionL);
                 k++;
             }
@@ -763,7 +743,7 @@ public class zaprosi {
             Collection<OWLLiteral> setOfT = getValuesFromProperty.getValues(n, ontology, setOf);
             for (OWLLiteral b : baseT) {
                 int baseTNumber = b.parseInteger();
-                k = CreateComplectOfProtection.CreateComplectForTR(n, ontology, ns, protectionOfTrans.get(baseTNumber), df, manager, k, mProtectionTr, rProtectionTr, techProtectionTr,baseTNumber);
+                k = CreateComplectOfProtection.CreateComplectForTR(n, ontology, ns, protectionOfTrans.get(baseTNumber), df, manager, k, mProtectionTr, rProtectionTr, techProtectionTr, baseTNumber);
             }
             for (OWLLiteral s : setOfT) {
                 int setOfNumber = s.parseInteger();
@@ -833,71 +813,84 @@ public class zaprosi {
                 }
             }
         }
-       /////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////
 
 
-        SWRLAPIRule rule14  = ruleEngine.createSWRLRule("pdifForOther", "Equipment(?e) ^ addedEquipment(?e, ?c) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ hasVoltageLevel(?c, ?v) ^ voltageType(?v, ?vv) ^ voltageType(?p, ?t) ^ swrlb:equal(?vv, ?t) -> isProtectedBy(?c, ?p)");
-        SWRLAPIRule rule15  = ruleEngine.createSWRLRule("mainPr", "Equipment(?e) ^ addedEquipment(?e, ?c) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ hasVoltageLevel(?c, ?v) ^ voltageType(?v, ?vv) ^ voltageType(?p, ?t) ^ swrlb:equal(?vv, ?t) -> mainProtect(?p, ?c)");
-        SWRLAPIRule rule16  = ruleEngine.createSWRLRule("pdifForS", "Equipment(?e) ^ hasShortBus(?e, ?b) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ voltageType(?b, ?v) ^ voltageType(?p, ?t) ^ swrlb:equal(?v, ?t) -> isProtectedBy(?b, ?p)");
-        SWRLAPIRule rule17  = ruleEngine.createSWRLRule("mainPrS", "Equipment(?e) ^ hasShortBus(?e, ?b) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ voltageType(?b, ?v) ^ voltageType(?p, ?t) ^ swrlb:equal(?v, ?t) -> mainProtect(?p, ?b)");
+        SWRLAPIRule rule14 = ruleEngine.createSWRLRule("pdifForOther", "Equipment(?e) ^ addedEquipment(?e, ?c) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ hasVoltageLevel(?c, ?v) ^ voltageType(?v, ?vv) ^ voltageType(?p, ?t) ^ swrlb:equal(?vv, ?t) -> isProtectedBy(?c, ?p)");
+        SWRLAPIRule rule15 = ruleEngine.createSWRLRule("mainPr", "Equipment(?e) ^ addedEquipment(?e, ?c) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ hasVoltageLevel(?c, ?v) ^ voltageType(?v, ?vv) ^ voltageType(?p, ?t) ^ swrlb:equal(?vv, ?t) -> mainProtect(?p, ?c)");
+        SWRLAPIRule rule16 = ruleEngine.createSWRLRule("pdifForS", "Equipment(?e) ^ hasShortBus(?e, ?b) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ voltageType(?b, ?v) ^ voltageType(?p, ?t) ^ swrlb:equal(?v, ?t) -> isProtectedBy(?b, ?p)");
+        SWRLAPIRule rule17 = ruleEngine.createSWRLRule("mainPrS", "Equipment(?e) ^ hasShortBus(?e, ?b) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ voltageType(?b, ?v) ^ voltageType(?p, ?t) ^ swrlb:equal(?v, ?t) -> mainProtect(?p, ?b)");
         SWRLAPIRule rule18 = ruleEngine.createSWRLRule("connectedE", "Equipment(?e) ^ isSwitchedBy(?e,?b) ^ Equipment(?q) ^ isSwitchedBy(?q,?b) ^ added(?e,0) ^ added(?q,0) ^ hasName(?e, ?x1) ^ hasName(?q, ?z1) ^ swrlb:notEqual(?x1, ?z1) ^ hasVoltageLevel(?e, ?v) ^  hasVoltageLevel(?q, ?v)  ^ hasBus(?v,1) -> connectedEquipment(?e,?q)");
         SWRLAPIRule rule19 = ruleEngine.createSWRLRule("voltageOfPdif", "PDIF_O(?p) ^ voltageType(?p,?v) ^ VoltageLevel(?volt) ^ voltageType(?volt,?vv) ^ swrlb:equal(?v,?vv) ^ hasVoltage(?volt,?w) -> hasVoltage(?p,?w)");
         SWRLAPIRule rule23 = ruleEngine.createSWRLRule("levelWithShortBus", "VoltageLevel(?v) ^ voltageType(?v,?t) ^ YPTR(?y) ^ hasVoltageLevel(?y,?v) ^ isProtectedBy(?y,?p) ^ PDIF_O(?p) ^ voltageType(?p,?w) ^ swrlb:equal(?t,?w) -> hasAddedBus(?v,1)");
         SWRLAPIRule rule018 = ruleEngine.createSWRLRule("connectedEWithoutShortBus", "Equipment(?e) ^ isSwitchedBy(?e,?b) ^ Equipment(?q) ^ isSwitchedBy(?q,?b) ^ addedShortBus(?e,0) ^ addedShortBus(?q,0) ^ hasName(?e, ?x1) ^ hasName(?q, ?z1) ^ swrlb:notEqual(?x1, ?z1) ^ hasVoltageLevel(?e, ?v) ^  hasVoltageLevel(?q, ?v)  ^ hasBus(?v,0) -> connectedEquipment(?e,?q)");
-       // SWRLAPIRule rule019 = ruleEngine.createSWRLRule("connectedEWithShortBus", "Equipment(?e) ^ addedShortBus(?e,1)  ^ hasVoltageLevel(?e, ?v)  ^ hasBus(?v,0)  ^ hasShortBus(?e,?s) -> connectedEquipment(?e,?s)");
+        // SWRLAPIRule rule019 = ruleEngine.createSWRLRule("connectedEWithShortBus", "Equipment(?e) ^ addedShortBus(?e,1)  ^ hasVoltageLevel(?e, ?v)  ^ hasBus(?v,0)  ^ hasShortBus(?e,?s) -> connectedEquipment(?e,?s)");
+        SWRLAPIRule rule31forBus = ruleEngine.createSWRLRule("BreakerForBusSections", "Bus(?b) ^ Bus(?b2) ^ hasName(?b,?n) ^ hasName(?b2,?m) ^ swrlb:notEqual(?n,?m) ^isSwitchedBy(?b,?br) ^ isSwitchedBy(?b2,?br) ^ hasTCTR(?br,?t) -> use(?t,1)");
+
         ruleEngine.infer();
 
         /////////////////////////БЛОК РАСПРЕДЕЛЕНИЯ ЗАШИТ ПО ТТ ///////////////////
 
         for (OWLNamedIndividual n : indVolt) {
-            Collection<OWLLiteral> listOfAd = getValuesFromProperty.getValues(n,ontology,hasAddedBus);
-                if (listOfAd.isEmpty()) {
-                    AxiomsAdding.AddingData(ontology,manager,df,n,0,hasAddedBus);
+            Collection<OWLLiteral> listOfAd = getValuesFromProperty.getValues(n, ontology, hasAddedBus);
+            if (listOfAd.isEmpty()) {
+                AxiomsAdding.AddingData(ontology, manager, df, n, 0, hasAddedBus);
             }
         }
 
         Set<OWLNamedIndividual> indTT = getIndividualByClass.getIndividualofClass(TCTR, reasoner);
-        for (OWLNamedIndividual t: indTT) {
-            AxiomsAdding.AddingData(ontology,manager,df,t,0,use);
+        for (OWLNamedIndividual t : indTT) {
+            Collection<OWLLiteral> listOfUseTT = getValuesFromProperty.getValues(t, ontology, use);
+            if (listOfUseTT.isEmpty()) {
+                AxiomsAdding.AddingData(ontology, manager, df, t, 0, use);
+            }
         }
 
 
         SWRLAPIRule rule20 = ruleEngine.createSWRLRule("tctrForT", "YPTR(?y) ^ hasTCTR(?y,?t) ^ isProtectedBy(?y,?p) ^ PDIF_O(?p) ^ hasVoltage(?t,?v) ^ hasVoltage(?p,?vv) ^ swrlb:equal(?v,?vv) -> isLocated(?p,?t)");
         SWRLAPIRule rule21 = ruleEngine.createSWRLRule("tctrForT_First", "YPTR(?y) ^ tctrFirst(?y,?t) ^ isProtectedBy(?y,?p) ^ PDIF_O(?p) ^ hasVoltage(?t,?v) ^ hasVoltage(?p,?vv) ^ swrlb:equal(?v,?vv) -> isLocated(?p,?t)");
         SWRLAPIRule rule24 = ruleEngine.createSWRLRule("tctrForTWithBus", "YPTR(?y) ^ hasVoltageLevel(?y,?volt) ^ hasAddedBus(?volt,1) ^ isProtectedBy(?y,?p) ^ PDIF_T(?p) ^ tctrFirst(?y,?r) ^ hasVoltageLevel(?r,?volt) -> isLocated(?p,?r)");
-        SWRLAPIRule rule25 = ruleEngine.createSWRLRule("pdifForT","YPTR(?y) ^ hasVoltageLevel(?y,?volt) ^ hasAddedBus(?volt,0) ^ isProtectedBy(?y,?p) ^ PDIF_T(?p) ^ hasTCTR(?y,?r) ^ hasVoltageLevel(?r,?volt) -> isLocated(?p,?r)");
+        SWRLAPIRule rule25 = ruleEngine.createSWRLRule("pdifForT", "YPTR(?y) ^ hasVoltageLevel(?y,?volt) ^ hasAddedBus(?volt,0) ^ isProtectedBy(?y,?p) ^ PDIF_T(?p) ^ hasTCTR(?y,?r) ^ hasVoltageLevel(?r,?volt) -> isLocated(?p,?r)");
         SWRLAPIRule rule22 = ruleEngine.createSWRLRule("reserveForT", "Protection(?p) ^ reserveProtect(?p,?y) ^ YPTR(?y) ^ tctrFirst(?y,?t) ^ hasVoltageLevel(?t,?v) ^ voltageType(?p,?e) ^ voltageType(?v,?w) ^ swrlb:equal(?e,?w) -> isLocated(?p,?t)");
         ruleEngine.infer();
 
         Set<OWLNamedIndividual> indPT = getIndividualByClass.getIndividualofClass(ofPowerTransformers, reasoner);
-        for (OWLNamedIndividual t: indPT){
-            Collection<OWLIndividual> listOfUse = getIndividualFromProperty.getIndivid(t,ontology,isLocated);
-            for (OWLIndividual i: listOfUse){
-                AxiomsAdding.changingAxiomsData(ontology,manager,df,i,0,1,use);
+        for (OWLNamedIndividual t : indPT) {
+            Collection<OWLIndividual> listOfUse = getIndividualFromProperty.getIndivid(t, ontology, isLocated);
+            for (OWLIndividual i : listOfUse) {
+                AxiomsAdding.changingAxiomsData(ontology, manager, df, i, 0, 1, use);
             }
         }
 
-        SWRLAPIRule rule26 = ruleEngine.createSWRLRule("tctrForLines1WhileMainProt","Lines(?l) ^ mainProtect(?p,?l) ^ connectedEquipment(?l,?c) ^ isSwitchedBy(?l,?b)  ^ hasTCTR(?b,?t) ^ hasVoltageLevel(?l,?v) ^ hasBus(?v,1) ^ hasAddedBus(?v,0) ^ mainProtect(?pr,?c) ^ isLocated(?pr,?t)  -> isLocated(?p,?t)");
-        SWRLAPIRule rule27 = ruleEngine.createSWRLRule("tctrForLines2WhilePDIF_O","Lines(?l) ^ mainProtect(?p,?l) ^ connectedEquipment(?l,?c) ^ isSwitchedBy(?l,?b) ^ hasTCTR(?b,?t) ^ hasVoltageLevel(?l,?v) ^ hasBus(?v,1) ^ hasAddedBus(?v,1) ^ isProtectedBy(?c,?pr) ^ PDIF_O(?pr) ^ isLocated(?pr,?t) -> isLocated(?p,?t)");
-        SWRLAPIRule rule28 = ruleEngine.createSWRLRule("tctrForLinesSelf","Lines(?l) ^ mainProtect(?p,?l) ^ connectedEquipment(?l,?c) ^ hasTCTR(?c,?t) ^ isSwitchedBy(?l,?b) ^ hasTCTR(?b,?t) ^ use(?t,0) ^ hasTCTR(?l,?t2) ^ hasTCTR(?b,?t2) ^ hasVoltageLevel(?l,?v) ^ hasBus(?v,1) -> isLocated(?p,?t2)");
-        SWRLAPIRule rule29 = ruleEngine.createSWRLRule("tctrForLinesReserve","Lines(?l) ^ reserveProtect(?p,?l) ^ isSwitchedBy(?l,?b) ^ hasTCTR(?b,?t) ^ hasVoltageLevel(?l,?v) ^ hasTCTR(?l,?t) ^ hasBus(?v,1) -> isLocated(?p,?t)");
+        SWRLAPIRule rule26 = ruleEngine.createSWRLRule("tctrForLines1WhileMainProt", "Lines(?l) ^ mainProtect(?p,?l) ^ connectedEquipment(?l,?c) ^ isSwitchedBy(?l,?b)  ^ hasTCTR(?b,?t) ^ hasVoltageLevel(?l,?v) ^ hasBus(?v,1) ^ hasAddedBus(?v,0) ^ mainProtect(?pr,?c) ^ isLocated(?pr,?t)  -> isLocated(?p,?t)");
+        SWRLAPIRule rule27 = ruleEngine.createSWRLRule("tctrForLines2WhilePDIF_O", "Lines(?l) ^ mainProtect(?p,?l) ^ connectedEquipment(?l,?c) ^ isSwitchedBy(?l,?b) ^ hasTCTR(?b,?t) ^ hasVoltageLevel(?l,?v) ^ hasBus(?v,1) ^ hasAddedBus(?v,1) ^ isProtectedBy(?c,?pr) ^ PDIF_O(?pr) ^ isLocated(?pr,?t) -> isLocated(?p,?t)");
+        SWRLAPIRule rule28 = ruleEngine.createSWRLRule("tctrForLinesSelf", "Lines(?l) ^ mainProtect(?p,?l) ^ connectedEquipment(?l,?c) ^ hasTCTR(?c,?t) ^ isSwitchedBy(?l,?b) ^ hasTCTR(?b,?t) ^ use(?t,0) ^ hasTCTR(?l,?t2) ^ hasTCTR(?b,?t2) ^ hasVoltageLevel(?l,?v) ^ hasBus(?v,1) -> isLocated(?p,?t2)");
+        SWRLAPIRule rule29 = ruleEngine.createSWRLRule("tctrForLinesReserve", "Lines(?l) ^ reserveProtect(?p,?l) ^ isSwitchedBy(?l,?b) ^ hasTCTR(?b,?t) ^ hasVoltageLevel(?l,?v) ^ hasTCTR(?l,?t) ^ hasBus(?v,1) -> isLocated(?p,?t)");
 
-        SWRLAPIRule rule30 = ruleEngine.createSWRLRule("tctrForLinesMainForRuShort","Lines(?l) ^ mainProtect(?p,?l) ^ tctrFirst(?l,?t) ^ hasVoltageLevel(?l,?v) ^ hasBus(?v,0) -> isLocated(?p,?t)");
-        SWRLAPIRule rule31 = ruleEngine.createSWRLRule("tctrForLinesResForRuShort","Lines(?l) ^ reserveProtect(?p,?l) ^ tctrFirst(?l,?t) ^ hasVoltageLevel(?l,?v) ^ hasBus(?v,0) -> isLocated(?p,?t)");
+        SWRLAPIRule rule30 = ruleEngine.createSWRLRule("tctrForLinesMainForRuShort", "Lines(?l) ^ mainProtect(?p,?l) ^ tctrFirst(?l,?t) ^ hasVoltageLevel(?l,?v) ^ hasBus(?v,0) -> isLocated(?p,?t)");
+        SWRLAPIRule rule31 = ruleEngine.createSWRLRule("tctrForLinesResForRuShort", "Lines(?l) ^ reserveProtect(?p,?l) ^ tctrFirst(?l,?t) ^ hasVoltageLevel(?l,?v) ^ hasBus(?v,0) -> isLocated(?p,?t)");
+
         ruleEngine.infer();
 
         Set<OWLNamedIndividual> indPL = getIndividualByClass.getIndividualofClass(ofLines, reasoner);
-        for (OWLNamedIndividual t: indPL){
-            Collection<OWLIndividual> listOfUse = getIndividualFromProperty.getIndivid(t,ontology,isLocated);
-            for (OWLIndividual i: listOfUse){
-                AxiomsAdding.changingAxiomsData(ontology,manager,df,i,0,1,use);
+        for (OWLNamedIndividual t : indPL) {
+            Collection<OWLIndividual> listOfUse = getIndividualFromProperty.getIndivid(t, ontology, isLocated);
+            for (OWLIndividual i : listOfUse) {
+                AxiomsAdding.changingAxiomsData(ontology, manager, df, i, 0, 1, use);
             }
         }
 
-        // SWRLAPIRule rule32 = ruleEngine.createSWRLRule("tctrForReact","ZREA(?r) ^ ");
+        SWRLAPIRule rule32 = ruleEngine.createSWRLRule("tctrForBusAndPdifSelf", "Bus(?b) ^ mainProtect(?p,?b) ^ PDIF_B(?p) ^ connectedEquipment(?b,?c) ^ hasTCTR(?c,?t)  ^ isSwitchedBy(?b,?br) ^ hasTCTR(?br,?t) ^ use(?t, 0) ^ hasTCTR(?b,?t2) ^ hasTCTR(?br,?t2)-> isLocated(?p,?t2) ");
+        // SWRLAPIRule rule33 = ruleEngine.createSWRLRule("tctrForBusAndPdifConnected","Bus(?b) ^ mainProtect(?p,?b) ^ PDIF_B(?p) ^ connectedEquipment(?b,?c) ^ hasTCTR(?c,?t)  ^ isSwitchedBy(?b,?br) ^ hasTCTR(?br,?t) ^ mainProtect(?pr,?c) ^ isLocated(?pr,?t) -> isLocated(?p,?t) ");
+        // SWRLAPIRule rule34 = ruleEngine.createSWRLRule("tctrForBusAndPdifConnectedPDIF_O","Bus(?b) ^ mainProtect(?p,?b) ^ PDIF_B(?p) ^ connectedEquipment(?b,?c) ^ hasTCTR(?c,?t)  ^ isSwitchedBy(?b,?br) ^ hasTCTR(?br,?t) ^ isProtectedBy(?c,?pr) ^ PDIF_O(?pr) ^ isLocated(?pr,?t) -> isLocated(?p,?t) ");
+        SWRLAPIRule rule34 = ruleEngine.createSWRLRule("tctrForBusAndPdifConnectedPDIF_O", "Bus(?b) ^ mainProtect(?p,?b) ^ PDIF_B(?p) ^ connectedEquipment(?b,?c) ^ hasTCTR(?c,?t)  ^ isSwitchedBy(?b,?br) ^ hasTCTR(?br,?t) ^ use(?t,1) -> isLocated(?p,?t) ");
 
+
+
+
+        ruleEngine.infer();
         OutputStream out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_10_09.owl");
         manager.saveOntology(ontology, out);
-   }
+    }
 
 }
