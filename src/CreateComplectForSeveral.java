@@ -5,12 +5,8 @@ import java.util.List;
 
 public class CreateComplectForSeveral {
 
-//    List<OWLClass> mainProtection = new ArrayList<>();
-//    List<OWLClass> reserveProtection = new ArrayList<>();
-//    List<OWLClass> technologicalProtection = new ArrayList<>();
-
-
-    public static int CreateComplect_2(OWLNamedIndividual ind, int number, OWLOntology ont, String ns, List<OWLClass> protection, OWLDataFactory df, OWLOntologyManager manager, int l , List<OWLClass> mainList, List<OWLClass> reserveList, List<OWLClass> technologicalList) {
+    public static int CreateComplect_2(OWLNamedIndividual ind, int number, OWLOntology ont, String ns, List<OWLClass> protection, OWLDataFactory df, OWLOntologyManager manager, int l , List<OWLClass> mainList, List<OWLClass> reserveList, List<OWLClass> technologicalList, List<OWLClass> voltageTypeProt, List<OWLClass> curVoltProt) {
+        OWLDataProperty typeOfControlledValue = df.getOWLDataProperty(IRI.create(ns+"typeOfControlledValue"));
         for (OWLClass j: protection) {
             String[] linesName1 = ind.toString().split("#");
             String[] linesName = linesName1[1].split(">");
@@ -21,25 +17,28 @@ public class CreateComplectForSeveral {
             OWLObjectProperty rProtect = df.getOWLObjectProperty(IRI.create(ns+"reserveProtect"));
             OWLObjectProperty tProtect = df.getOWLObjectProperty(IRI.create(ns+"techProtect"));
             OWLDataProperty type = df.getOWLDataProperty(IRI.create(ns+"voltageType"));
-            OWLDataProperty protType = df.getOWLDataProperty(IRI.create(ns+"typeOfProtection"));
 
             OWLIndividual indProtection = df.getOWLNamedIndividual(IRI.create(ns + indName));
             AxiomsAdding.AddingClass(ont,manager,df,indProtection,j);
             AxiomsAdding.adding(ont,manager,df,ind,indProtection,isProtectedBy);
-           // AxiomsAdding.adding(ont,manager,df,indProtection,ind,protect);
 
             if (mainList.contains(j)) {
-                //AxiomsAdding.AddingData(ont,manager,df,indProtection,0,protType);
                 AxiomsAdding.adding(ont,manager,df,indProtection,ind,mProtect);
             }
 
             if (reserveList.contains(j)) {
-               // AxiomsAdding.AddingData(ont,manager,df,indProtection,1,protType);
                 AxiomsAdding.adding(ont,manager,df,indProtection,ind,rProtect);
             }
             if (technologicalList.contains(j)) {
-               // AxiomsAdding.AddingData(ont,manager,df,indProtection,2,protType);
                 AxiomsAdding.adding(ont,manager,df,indProtection,ind,tProtect);
+            }
+
+            if (curVoltProt.contains(j)){
+                AxiomsAdding.AddingData(ont,manager,df,indProtection,0,typeOfControlledValue);
+                AxiomsAdding.AddingData(ont,manager,df,indProtection,1,typeOfControlledValue);
+            }
+            if (voltageTypeProt.contains(j)){
+                AxiomsAdding.AddingData(ont,manager,df,indProtection,1,typeOfControlledValue);
             }
 
             if (number ==1 || number ==3 || number==7){

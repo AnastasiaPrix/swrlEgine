@@ -49,6 +49,6 @@ public class AxiomsAdding {
         OWLAxiom Ax2 = df.getOWLDataPropertyAssertionAxiom(property,ind1,value2);
         AddAxiom Ad= new AddAxiom(ont,Ax2);
         manager.applyChange(Ad);
-
     }
+
 }

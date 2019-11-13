@@ -124,4 +124,12 @@ public class isItWhatILookingFor {
 
         return x;
     }
+    public static OWLIndividual hasTCTR(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df, OWLClassExpression clas, List<OWLIndividual> clasCollection) {
+        OWLObjectProperty hasTCTR = df.getOWLObjectProperty(IRI.create(ns + "hasTCTR"));
+        OWLIndividual x = null;
+        for (OWLIndividual i : EntitySearcher.getObjectPropertyValues(ind, hasTCTR, ont)) {
+                x = i;
+        }
+        return x;
+    }
 }

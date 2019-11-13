@@ -4,8 +4,10 @@ import java.util.List;
 
 public class CreateComplectOfProtection {
 
-    public static int CreateComplect(OWLNamedIndividual ind, OWLOntology ont, String ns, List<OWLClass> protection, OWLDataFactory df, OWLOntologyManager manager, int l, List<OWLClass> mainList, List<OWLClass> reserveList, List<OWLClass> technologicalList) {
+
+    public static int CreateComplect(OWLNamedIndividual ind, OWLOntology ont, String ns, List<OWLClass> protection, OWLDataFactory df, OWLOntologyManager manager, int l, List<OWLClass> mainList, List<OWLClass> reserveList, List<OWLClass> technologicalList, List<OWLClass> voltageTypeProt, List<OWLClass> curVoltProt) {
         // int l = 1;
+        OWLDataProperty typeOfControlledValue = df.getOWLDataProperty(IRI.create(ns+"typeOfControlledValue"));
         for (OWLClass j : protection) {
             //String l1 = l+"";
             String[] linesName1 = ind.toString().split("#");
@@ -27,6 +29,13 @@ public class CreateComplectOfProtection {
 
             if (protection.contains(RS)) {
                 AxiomsAdding.adding(ont, manager, df, indProtection, ind, mProtect);
+                if (curVoltProt.contains(j)){
+                    AxiomsAdding.AddingData(ont,manager,df,indProtection,0,typeOfControlledValue);
+                    AxiomsAdding.AddingData(ont,manager,df,indProtection,1,typeOfControlledValue);
+                }
+                if (voltageTypeProt.contains(j)){
+                    AxiomsAdding.AddingData(ont,manager,df,indProtection,1,typeOfControlledValue);
+                }
             } else {
 
                 if (mainList.contains(j)) {
@@ -42,6 +51,13 @@ public class CreateComplectOfProtection {
                     AxiomsAdding.adding(ont, manager, df, indProtection, ind, tProtect);
                     // AxiomsAdding.AddingData(ont,manager,df,indProtection,2,protType);
                 }
+                if (curVoltProt.contains(j)){
+                    AxiomsAdding.AddingData(ont,manager,df,indProtection,0,typeOfControlledValue);
+                    AxiomsAdding.AddingData(ont,manager,df,indProtection,1,typeOfControlledValue);
+                }
+                if (voltageTypeProt.contains(j)){
+                    AxiomsAdding.AddingData(ont,manager,df,indProtection,1,typeOfControlledValue);
+                }
             }
             l++;
 
@@ -49,7 +65,8 @@ public class CreateComplectOfProtection {
         return l;
     }
 
-    public static int CreateComplectForTR(OWLNamedIndividual ind, OWLOntology ont, String ns, List<OWLClass> protection, OWLDataFactory df, OWLOntologyManager manager, int l, List<OWLClass> mainList, List<OWLClass> reserveList, List<OWLClass> technologicalList, int number) {
+    public static int CreateComplectForTR(OWLNamedIndividual ind, OWLOntology ont, String ns, List<OWLClass> protection, OWLDataFactory df, OWLOntologyManager manager, int l, List<OWLClass> mainList, List<OWLClass> reserveList, List<OWLClass> technologicalList, int number, List<OWLClass> voltageTypeProt, List<OWLClass> curVoltProt) {
+        OWLDataProperty typeOfControlledValue = df.getOWLDataProperty(IRI.create(ns+"typeOfControlledValue"));
         int i = 0;
         for (OWLClass j : protection) {
 
@@ -103,6 +120,13 @@ public class CreateComplectOfProtection {
             if (technologicalList.contains(j)) {
                 AxiomsAdding.adding(ont, manager, df, indProtection, ind, tProtect);
                 // AxiomsAdding.AddingData(ont,manager,df,indProtection,2,protType);
+            }
+            if (curVoltProt.contains(j)){
+                AxiomsAdding.AddingData(ont,manager,df,indProtection,0,typeOfControlledValue);
+                AxiomsAdding.AddingData(ont,manager,df,indProtection,1,typeOfControlledValue);
+            }
+            if (voltageTypeProt.contains(j)){
+                AxiomsAdding.AddingData(ont,manager,df,indProtection,1,typeOfControlledValue);
             }
             l++;
             i++;
