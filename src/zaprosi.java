@@ -21,7 +21,7 @@ public class zaprosi {
 
     public static void main(String[] args) throws OWLOntologyCreationException, FileNotFoundException, OWLOntologyStorageException, SWRLBuiltInException, SWRLParseException {
 
-        TEST.Start();
+      //  TEST.Start();
 
 
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -852,7 +852,18 @@ public class zaprosi {
 
 
         ////////////////////////////////////////////////////////////////////////////////////////
+        SWRLAPIRule ruleA1 = ruleEngine.createSWRLRule("urovLines", "Lines(?l) ^ isSwitchedBy(?l,?c) ^ XCBR(?c) ^ connectedEquipment(?l, ?b) ^ isSwitchedBy(?b,?cc) ^ Bus(?b) ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> manage(?a, ?cc)");
+        // SWRLAPIRule ruleA2 = ruleEngine.createSWRLRule("urovBus", "Bus(?b) ^ isSwitchedBy(?b,?c) ^ XCBR(?c) ^ connectedWithCbr(?c, ?cc) ^ isControlling(?cc,?l2) ^ Bus(?l2) ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> manage(?a, ?cc)");
+        SWRLAPIRule ruleA3 = ruleEngine.createSWRLRule("urovBusBreaker", "Bus(?b) ^ isSwitchedBy(?b,?c) ^ BusBreaker(?c) ^ connectedEquipment(?b,?bb) ^ Bus(?bb) ^ isSwitchedBy(?bb,?cc) ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> manage(?a, ?cc)");
+        SWRLAPIRule ruleA4 = ruleEngine.createSWRLRule("urovXCBR", "Equipment(?b) ^ isSwitchedBy(?b,?c) ^ XCBR(?c) ^ connectedEquipment(?b,?bb) ^ isSwitchedBy(?bb,?c) ^ isSwitchedBy(?bb,?cc) ^ hasName(?c,?n) ^ hasName(?cc,?nn) ^ swrlb:notEqual(?n,?nn) ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> manage(?a, ?cc)");
+        SWRLAPIRule ruleA5 = ruleEngine.createSWRLRule("urovXCBRSelf", "XCBR(?c)  ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> manage(?a, ?c)");
 
+        //  SWRLAPIRule ruleA = ruleEngine.createSWRLRule("urovLines", "XCBR(?c) ^ connectedWithCbr(?c, ?cc) ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> manage(?a, ?cc)");
+        // SWRLAPIRule ruleA = ruleEngine.createSWRLRule("urovProtect", "XCBR(?c) ^ isControlling(?c, ?e) ^ connectedEquipment(?e, ?ce) ^ Protection(?p) ^ mainProtect(?p, ?ce) ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> operate(?a, ?p)");
+        //  SWRLAPIRule ruleAP1 = ruleEngine.createSWRLRule("urovProtectLines", "Lines(?l) ^ isSwitchedBy(?l,?c) ^ XCBR(?c) ^ connectedEquipment(?l, ?b) ^ Protection(?p) ^ mainProtect(?p, ?b) ^ Bus(?b) ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> operate(?a, ?p)");
+        SWRLAPIRule ruleAP2 = ruleEngine.createSWRLRule("urovProtectOther", "Equipment(?l) ^ isSwitchedBy(?l,?c)  ^ connectedEquipment(?l, ?b)   ^ isSwitchedBy(?b,?c) ^ Protection(?p) ^ mainProtect(?p, ?b) ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> operate(?a, ?p)");
+        SWRLAPIRule ruleAP3 = ruleEngine.createSWRLRule("urovAvtomatika", "Equipment(?l) ^ isSwitchedBy(?l,?c)  ^ connectedEquipment(?l, ?b)   ^ isSwitchedBy(?b,?c) ^ hasAutomation(?b, ?aa) ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> operate(?a, ?aa)");
+        // SWRLAPIRule ruleAP3 = ruleEngine.createSWRLRule("urovProtectOther", "Bus(?l) ^ isSwitchedBy(?l,?c) ^ XCBR(?c) ^ connectedEquipment(?l, ?b) ^ isSwitchedBy(?b,?c) ^ Protection(?p) ^ mainProtect(?p, ?b) ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> operate(?a, ?p)");
 
         SWRLAPIRule rule14 = ruleEngine.createSWRLRule("pdifForOther", "Equipment(?e) ^ addedEquipment(?e, ?c) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ hasVoltageLevel(?c, ?v) ^ voltageType(?v, ?vv) ^ voltageType(?p, ?t) ^ swrlb:equal(?vv, ?t) -> isProtectedBy(?c, ?p)");
         SWRLAPIRule rule15 = ruleEngine.createSWRLRule("mainPr", "Equipment(?e) ^ addedEquipment(?e, ?c) ^ isProtectedBy(?e, ?p) ^ PDIF_O(?p) ^ hasVoltageLevel(?c, ?v) ^ voltageType(?v, ?vv) ^ voltageType(?p, ?t) ^ swrlb:equal(?vv, ?t) -> mainProtect(?p, ?c)");
