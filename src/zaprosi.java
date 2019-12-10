@@ -21,7 +21,7 @@ public class zaprosi {
 
     public static void main(String[] args) throws OWLOntologyCreationException, FileNotFoundException, OWLOntologyStorageException, SWRLBuiltInException, SWRLParseException {
 
-      //  TEST.Start();
+        TEST.Start();
 
 
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -857,6 +857,7 @@ public class zaprosi {
         SWRLAPIRule ruleA3 = ruleEngine.createSWRLRule("urovBusBreaker", "Bus(?b) ^ isSwitchedBy(?b,?c) ^ BusBreaker(?c) ^ connectedEquipment(?b,?bb) ^ Bus(?bb) ^ isSwitchedBy(?bb,?cc) ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> manage(?a, ?cc)");
         SWRLAPIRule ruleA4 = ruleEngine.createSWRLRule("urovXCBR", "Equipment(?b) ^ isSwitchedBy(?b,?c) ^ XCBR(?c) ^ connectedEquipment(?b,?bb) ^ isSwitchedBy(?bb,?c) ^ isSwitchedBy(?bb,?cc) ^ hasName(?c,?n) ^ hasName(?cc,?nn) ^ swrlb:notEqual(?n,?nn) ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> manage(?a, ?cc)");
         SWRLAPIRule ruleA5 = ruleEngine.createSWRLRule("urovXCBRSelf", "XCBR(?c)  ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> manage(?a, ?c)");
+        SWRLAPIRule ruleA_RREC = ruleEngine.createSWRLRule("xcbrForAPV", "Equipment(?c)  ^ hasAutomation(?c, ?a) ^ RREC(?a) ^ isSwitchedBy(?c,?x) -> manage(?a, ?x)");
 
         //  SWRLAPIRule ruleA = ruleEngine.createSWRLRule("urovLines", "XCBR(?c) ^ connectedWithCbr(?c, ?cc) ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> manage(?a, ?cc)");
         // SWRLAPIRule ruleA = ruleEngine.createSWRLRule("urovProtect", "XCBR(?c) ^ isControlling(?c, ?e) ^ connectedEquipment(?e, ?ce) ^ Protection(?p) ^ mainProtect(?p, ?ce) ^ hasAutomation(?c, ?a) ^ RBRF(?a) -> operate(?a, ?p)");
@@ -1024,7 +1025,9 @@ public class zaprosi {
 
         ChangeValueOfUsageTT.changeUsage(ofBus, reasoner, ontology, isLocated, manager, df, use, 0, 1);
 
+        MU.getSignalsForRu(ontology,manager,df,ns,reasoner);
 
+        ruleEngine.infer();
         OutputStream out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_10_09.owl");
         manager.saveOntology(ontology, out);
     }
