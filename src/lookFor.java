@@ -38,7 +38,7 @@ public class lookFor {
 
     public static void getSomethingWithoutEq(OWLIndividual ind, OWLOntology ont, String ns, OWLDataFactory df, OWLIndividual basInd, OWLClassExpression clas, List<OWLIndividual> clasCollection) {
         List<OWLIndividual> listEq = new ArrayList<>();
-        System.out.println("Welcome to get!!!" + ind);
+      //  System.out.println("Welcome to get!!!" + ind);
         //  List<OWLIndividual> listEq = new ArrayList<>();
         x = isItWhatILookingFor.hasNecessary(ind, ont, ns, df, clas, clasCollection);
         if (x != null) {

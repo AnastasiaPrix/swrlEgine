@@ -21,7 +21,7 @@ public class zaprosi {
 
     public static void main(String[] args) throws OWLOntologyCreationException, FileNotFoundException, OWLOntologyStorageException, SWRLBuiltInException, SWRLParseException {
 
-        TEST.Start();
+      //  TEST.Start();
 
 
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -1026,6 +1026,7 @@ public class zaprosi {
         ChangeValueOfUsageTT.changeUsage(ofBus, reasoner, ontology, isLocated, manager, df, use, 0, 1);
 
         MU.getSignalsForRu(ontology,manager,df,ns,reasoner);
+
 
         ruleEngine.infer();
         OutputStream out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_10_09.owl");
