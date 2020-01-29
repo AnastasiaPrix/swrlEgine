@@ -23,7 +23,6 @@ public class CreateShortBus {
                 AxiomsAdding.adding(ontology, manager, df, indShin, n, hasCN);
             }
         }
-
     }
 
     public static void CreateFalseBus(OWLOntology ontology, OWLOntologyManager manager, OWLDataFactory df, String ns, OWLIndividual j, OWLIndividual trans, OWLIndividual volt, Collection<OWLIndividual> nodes, int k) {

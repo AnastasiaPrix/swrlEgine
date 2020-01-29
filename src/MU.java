@@ -99,7 +99,6 @@ public class MU {
         int l = 1;
         int k=0;
         while (listTT.size()>=1 || listTV.size()>=1 || listSWI.size()>=1 || listCBR.size()>=1 ) {
-            System.out.println(listSWI.size() +" " + listTV.size()+" "+listTT.size()+" "+listCBR.size());
             MU mergingUnit = new MU("MergingUnit_"+volt.toString().split("#")[1].split(">")[0]+"_"+l);
             List<OWLNamedIndividual> bufferList = new ArrayList<>();
             List<OWLNamedIndividual> bufferList1 = new ArrayList<>();

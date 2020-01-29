@@ -21,11 +21,12 @@ public class zaprosi {
 
     public static void main(String[] args) throws OWLOntologyCreationException, FileNotFoundException, OWLOntologyStorageException, SWRLBuiltInException, SWRLParseException {
 
-      //  TEST.Start();
+       TEST.Start();
 
 
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-        File file = new File("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_PS3_pig.owl");
+       // File file = new File("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_PS3_pig.owl");
+        File file = new File("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_PS4_pig.owl");
         OWLOntology ontology = manager.loadOntologyFromOntologyDocument(file);
         System.out.println("Load ontology: " + ontology);
 
@@ -936,6 +937,11 @@ public class zaprosi {
                                     }
                                 }
                             }
+                            else{
+                                for (OWLIndividual i : listTVTR) {
+                                    tvtrForP.add(i);
+                                }
+                            }
                         }
                     }
                 }
@@ -1029,7 +1035,8 @@ public class zaprosi {
 
 
         ruleEngine.infer();
-        OutputStream out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_10_09.owl");
+       // OutputStream out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_10_09.owl");
+        OutputStream out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_10_10.owl");
         manager.saveOntology(ontology, out);
     }
 
