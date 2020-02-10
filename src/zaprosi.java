@@ -26,12 +26,16 @@ public class zaprosi {
 
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
        // File file = new File("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_PS3_pig.owl");
-        File file = new File("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_PS4_pig.owl");
+        File file = new File("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\complectOfOntology\\ont_PS1.owl");
         OWLOntology ontology = manager.loadOntologyFromOntologyDocument(file);
         System.out.println("Load ontology: " + ontology);
 
         SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
         ruleEngine.infer();
+        OutputStream out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\complectOfOntology\\ont_PS2.owl");
+        manager.saveOntology(ontology, out);
+
+
 
         SWRLAPIRule rule01 = ruleEngine.createSWRLRule("set0", "Lines(?p) ^ base(?p, 0) ^ hasChannel(?p,0)  -> setOfProtection(?p, 0)");
         SWRLAPIRule rule02 = ruleEngine.createSWRLRule("set1", "Lines(?p) ^ base(?p, 0) ^ hasChannel(?p,1)  -> setOfProtection(?p, 1)");
@@ -294,7 +298,8 @@ public class zaprosi {
             }
         }
         //////////////////////////////////////////////////////////////////////////////////////
-
+        out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\complectOfOntology\\ont_PS3.owl");
+        manager.saveOntology(ontology, out);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         SWRLAPIRule ruleL = ruleEngine.createSWRLRule("addedToRUWithShortBus", "Equipment(?e) ^ hasVoltageLevel(?e,?v) ^ hasBus(?v,0) ^ hasShortBus(?e,?b) -> addedShortBus(?e,1)");
@@ -600,7 +605,8 @@ public class zaprosi {
         base1.add(PDIF_T);
 
         List<OWLClass> base2 = new ArrayList<>();
-
+        base2.add(PDIS_T);
+        base2.add(PNTCN_T);
 
         List<OWLClass> base3 = new ArrayList<>();
         base3.add(PTO_T);
@@ -622,6 +628,9 @@ public class zaprosi {
         base6.add(PTCN);
 
 
+
+
+
         protectionOfTrans.put(0, base0);
         protectionOfTrans.put(1, base1);
         protectionOfTrans.put(2, base2);
@@ -629,7 +638,7 @@ public class zaprosi {
         protectionOfTrans.put(4, base4);
         protectionOfTrans.put(5, base5);
         protectionOfTrans.put(6, base6);
-        // protectionOfTrans.put(7, base7);
+
 
         List<OWLClass> set0 = new ArrayList<>();
         set0.add(PCRI_V);
@@ -880,6 +889,9 @@ public class zaprosi {
 
         ruleEngine.infer();
 
+        out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\complectOfOntology\\ont_PS4.owl");
+        manager.saveOntology(ontology, out);
+
         /////////////////////////БЛОК РАСПРЕДЕЛЕНИЯ ЗАШИТ ПО ТТ ///////////////////
 
         for (OWLNamedIndividual n : indVolt) {
@@ -989,6 +1001,8 @@ public class zaprosi {
         }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
         // SWRLAPIRule rule020_needOtherTvtr = ruleEngine.createSWRLRule("needOtherTVTR","Equipment(?e) ^ isProtectedBy(?e, ?p) ^ withTVTR(?e, 0) ^ typeOfControlledValue(?p, 1) ^ connectedEquipment(?e, ?c) ^ Bus(?c) ^ hasTVTR(?c, ?t) ^ voltageType(?p, ?v) ^ hasVoltageLevel(?t, ?volt) ^ voltageType(?volt, ?vv) ^ swrlb:equal(?v, ?vv) -> isLocated(?p, ?t)");
 //        SWRLAPIRule rule020_needOtherTvtr = ruleEngine.createSWRLRule("needOtherTVTR", "Equipment(?e) ^ isProtectedBy(?e, ?p) ^ withTVTR(?e, 0) ^ typeOfControlledValue(?p, 1) ^ Bus(?c) ^ hasTVTR(?c, ?t) ^ hasVoltage(?e, ?v) ^ hasVoltageLevel(?t, ?volt) ^ hasVoltage(?volt, ?vv) ^ swrlb:equal(?v, ?vv) -> isLocated(?p, ?t)");
 //        SWRLAPIRule rule020_t = ruleEngine.createSWRLRule("tvtrForProt_T", "Protection(?p) ^ YPTR(?e) ^ typeOfControlledValue(?p,1) ^ isProtectedBy(?e,?p) ^ hasTVTR(?e,?t) ^ hasVoltageLevel(?t,?volt) ^ voltageType(?volt,?v) ^ voltageType(?p,?vv) ^ swrlb:equal(?v,?vv) -> isLocated(?p,?t) ");
@@ -1028,6 +1042,8 @@ public class zaprosi {
         SWRLAPIRule rule34 = ruleEngine.createSWRLRule("tctrForBusAndPdifConnectedPDIF_O", "Bus(?b) ^ mainProtect(?p,?b) ^ PDIF_B(?p) ^ connectedEquipment(?b,?c) ^ hasTCTR(?c,?t)  ^ isSwitchedBy(?b,?br) ^ hasTCTR(?br,?t) ^ use(?t,1) -> isLocated(?p,?t) ");
 
         ruleEngine.infer();
+        out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\complectOfOntology\\ont_PS5.owl");
+        manager.saveOntology(ontology, out);
 
         ChangeValueOfUsageTT.changeUsage(ofBus, reasoner, ontology, isLocated, manager, df, use, 0, 1);
 
@@ -1035,8 +1051,12 @@ public class zaprosi {
 
 
         ruleEngine.infer();
+
+        out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\complectOfOntology\\ont_PS6.owl");
+        manager.saveOntology(ontology, out);
+
        // OutputStream out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_10_09.owl");
-        OutputStream out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_10_10.owl");
+        out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_10_11.owl");
         manager.saveOntology(ontology, out);
     }
 

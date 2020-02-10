@@ -27,7 +27,7 @@ public class TEST {
     public static void Start() {
         // создание пустой модели
         OntModel model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MINI_RULE_INF);
-        String inputOntFilename = "C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont1_1_6.rdf";
+        String inputOntFilename = "C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont1_1_7.rdf";
 
 //        ипользование менеджера файлов для нахождения входного файла
         InputStream in = FileManager.get().open(inputOntFilename);
@@ -39,7 +39,7 @@ public class TEST {
         model.read(in, null);
 
 
-        //File scdFile = new File("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\PIGv10.scd");
+     //   File scdFile = new File("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\PIGv10.scd");
         File scdFile = new File("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\twoVL_SSD_LIV2.ssd");
 
         SCL tsub = null;
@@ -325,9 +325,9 @@ public class TEST {
         }
         // сохранение (запись) модели в выходной файл
         try {
-            // FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\anast\\Desktop\\magistratura\\project\\ontologies\\ont_PS2_pig.owl");
+            FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\complectOfOntology\\ont_PS1.owl");
             //FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_PS3_pig.owl");
-            FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_PS4_pig.owl");
+           // FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_PS4_pig.owl");
             model.write(fileOutputStream);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

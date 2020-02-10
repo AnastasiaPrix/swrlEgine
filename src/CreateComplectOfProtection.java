@@ -103,6 +103,9 @@ public class CreateComplectOfProtection {
             if (number == 6) {
                 AxiomsAdding.AddingData(ont, manager, df, indProtection, 1, type);
             }
+            if (number == 2) {
+                AxiomsAdding.AddingData(ont, manager, df, indProtection, 1, type);
+            }
             if (number == -1) {
                 AxiomsAdding.AddingData(ont, manager, df, indProtection, 3, type);
             }
