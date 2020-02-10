@@ -26,13 +26,14 @@ public class zaprosi {
 
         OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
        // File file = new File("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_PS3_pig.owl");
-        File file = new File("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\complectOfOntology\\ont_PS1.owl");
+        File file = new File("src\\resources\\PS1.owl");;
         OWLOntology ontology = manager.loadOntologyFromOntologyDocument(file);
         System.out.println("Load ontology: " + ontology);
 
         SWRLRuleEngine ruleEngine = SWRLAPIFactory.createSWRLRuleEngine(ontology);
         ruleEngine.infer();
-        OutputStream out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\complectOfOntology\\ont_PS2.owl");
+        OutputStream out = new FileOutputStream("src\\resources\\PS2.owl");
+
         manager.saveOntology(ontology, out);
 
 
@@ -298,7 +299,8 @@ public class zaprosi {
             }
         }
         //////////////////////////////////////////////////////////////////////////////////////
-        out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\complectOfOntology\\ont_PS3.owl");
+        out = new FileOutputStream("src\\resources\\PS3.owl");
+
         manager.saveOntology(ontology, out);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -889,7 +891,8 @@ public class zaprosi {
 
         ruleEngine.infer();
 
-        out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\complectOfOntology\\ont_PS4.owl");
+        out = new FileOutputStream("src\\resources\\PS4.owl");
+
         manager.saveOntology(ontology, out);
 
         /////////////////////////БЛОК РАСПРЕДЕЛЕНИЯ ЗАШИТ ПО ТТ ///////////////////
@@ -1042,7 +1045,8 @@ public class zaprosi {
         SWRLAPIRule rule34 = ruleEngine.createSWRLRule("tctrForBusAndPdifConnectedPDIF_O", "Bus(?b) ^ mainProtect(?p,?b) ^ PDIF_B(?p) ^ connectedEquipment(?b,?c) ^ hasTCTR(?c,?t)  ^ isSwitchedBy(?b,?br) ^ hasTCTR(?br,?t) ^ use(?t,1) -> isLocated(?p,?t) ");
 
         ruleEngine.infer();
-        out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\complectOfOntology\\ont_PS5.owl");
+        out = new FileOutputStream("src\\resources\\PS5.owl");
+
         manager.saveOntology(ontology, out);
 
         ChangeValueOfUsageTT.changeUsage(ofBus, reasoner, ontology, isLocated, manager, df, use, 0, 1);
@@ -1052,11 +1056,76 @@ public class zaprosi {
 
         ruleEngine.infer();
 
-        out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\complectOfOntology\\ont_PS6.owl");
+        out = new FileOutputStream("src\\resources\\PS6.owl");
+
+
         manager.saveOntology(ontology, out);
 
-       // OutputStream out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_10_09.owl");
-        out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_10_11.owl");
+
+
+        SWRLAPIRule ProtectFrom_PDIF_T = ruleEngine.createSWRLRule ("ProtectFrom_PDIF_T","PDIF_T(?x)^SC(?y)->ProtectFrom(?x,?y)");
+        SWRLAPIRule ProtectFrom_PDIF_O = ruleEngine.createSWRLRule ("ProtectFrom_PDIF_O","PDIF_O(?x)^SC(?y)->ProtectFrom(?x,?y)");
+        SWRLAPIRule ProtectFrom_PDIF_B = ruleEngine.createSWRLRule ("ProtectFrom_PDIF_B","PDIF_B(?x) ^ SC(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PDIF_F = ruleEngine.createSWRLRule ("ProtectFrom_PDIF_F","PDIF_F(?x) ^ SC(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PDIF_L = ruleEngine.createSWRLRule ("ProtectFrom_PDIF_L","PDIF_L(?x) ^ SC(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PDIS = ruleEngine.createSWRLRule ("ProtectFrom_PDIS","PDIS(?x) ^ SC(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PDIS_T = ruleEngine.createSWRLRule ("ProtectFrom_PDIS_T","PDIS_T(?x)^SC(?y)->ProtectFrom(?x,?y)");
+        SWRLAPIRule ProtectFrom_PDZ = ruleEngine.createSWRLRule ("ProtectFrom_PDZ", "PDZ(?x) ^ SC(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PDZ_B = ruleEngine.createSWRLRule ("ProtectFrom_PDZ_B", "PDZ_B(?x) ^ SC(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PGAS_WindingFault = ruleEngine.createSWRLRule ("ProtectFrom_PGAS_WindingFault","PGAS(?x)^WindingFault(?y)->ProtectFrom(?x,?y)");
+        SWRLAPIRule ProtectFrom_PGAS_Overheat = ruleEngine.createSWRLRule ("ProtectFrom_PGAS_Overheat","PGAS(?x)^Overheat(?y)->ProtectFrom(?x,?y)");
+        SWRLAPIRule ProtectFrom_PICE_Overheat = ruleEngine.createSWRLRule ("ProtectFrom_PICE_Overheat","PICE(?x)^Overheat(?y)->ProtectFrom(?x,?y)");
+        SWRLAPIRule ProtectFrom_PMU = ruleEngine.createSWRLRule ("ProtectFrom_PMU","PMU(?x) ^ SC(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PNTCN_DoublePhaseToGND = ruleEngine.createSWRLRule ("ProtectFrom_PNTCN_DoublePhaseToGND","PNTCN(?x) ^ DoublePhaseToGND(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PNTCN_SinglePhase = ruleEngine.createSWRLRule ("ProtectFrom_PNTCN_SinglePhase","PNTCN_T(?x)^SinglePhase(?y)->ProtectFrom(?x,?y)");
+        SWRLAPIRule ProtectFrom_PNTCN_T_DoublePhaseToGND = ruleEngine.createSWRLRule ("ProtectFrom_PNTCN_T_DoublePhaseToGND","PNTCN_T(?x) ^ DoublePhaseToGND(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PNTCN_T_SinglePhase = ruleEngine.createSWRLRule ("ProtectFrom_PNTCN_T_SinglePhase","PNTCN_T(?x) ^ SinglePhase(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PNTCN_T_SinglePhaseToGND = ruleEngine.createSWRLRule ("ProtectFrom_PNTCN_T_SinglePhaseToGND","PNTCN_T(?x) ^ SinglePhaseToGND(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PNTCN_TriplePhaseToGND = ruleEngine.createSWRLRule ("ProtectFrom_PNTCN_TriplePhaseToGND","PNTCN(?x) ^ SinglePhaseToGND(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_NVCHZ = ruleEngine.createSWRLRule ("ProtectFrom_NVCHZ","NVCHZ(?x) ^ SC(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_POIL_ReducingOilLevel = ruleEngine.createSWRLRule ("ProtectFrom_POIL_ReducingOilLevel","POIL(?x) ^ ReducingOilLevel(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_POZZ_B_DoublePhaseToGND = ruleEngine.createSWRLRule ("ProtectFrom_POZZ_B_DoublePhaseToGND","POZZ_B(?x) ^ DoublePhaseToGND(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_POZZ_B_SinglePhase = ruleEngine.createSWRLRule ("ProtectFrom_POZZ_B_SinglePhase","POZZ_B(?x) ^ SinglePhase(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_POZZ_B_TriplePhaseToGND = ruleEngine.createSWRLRule ("ProtectFrom_POZZ_B_TriplePhaseToGND","POZZ_B(?x) ^ SinglePhaseToGND(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_POZZ_DoublePhaseToGND = ruleEngine.createSWRLRule ("ProtectFrom_POZZ_DoublePhaseToGND","POZZ(?x) ^ DoublePhaseToGND(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_POZZ_SinglePhase = ruleEngine.createSWRLRule ("ProtectFrom_POZZ_SinglePhase","POZZ(?x) ^ SinglePhase(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_POZZ_TriplePhaseToGND = ruleEngine.createSWRLRule ("ProtectFrom_POZZ_TriplePhaseToGND","POZZ(?x) ^ SinglePhaseToGND(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PRPN_WindingFault = ruleEngine.createSWRLRule ("ProtectFrom_PRPN_WindingFault","PRPN(?x) ^ WindingFault(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PTCN_DoublePhaseToGND = ruleEngine.createSWRLRule ("ProtectFrom_PTCN_DoublePhaseToGND","PTCN(?x) ^ DoublePhaseToGND(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PTCN_TriplePhaseToGND = ruleEngine.createSWRLRule ("ProtectFrom_PTCN_TriplePhaseToGND","PTCN(?x) ^ SinglePhaseToGND(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PTC_DoublePhaseToGND = ruleEngine.createSWRLRule ("ProtectFrom_PTC_DoublePhaseToGND","PTC(?x) ^ DoublePhaseToGND(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PTC_T_TriplePhase = ruleEngine.createSWRLRule ("ProtectFrom_PTC_T_TriplePhase","PTC_T(?x) ^ TriplePhase(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PTC_TriplePhaseToGND = ruleEngine.createSWRLRule ("ProtectFrom_PTC_TriplePhaseToGND","PTC(?x) ^ SinglePhaseToGND(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PTM = ruleEngine.createSWRLRule ("ProtectFrom_PTM","PTM(?x) ^ SC(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PTM_U_DoublePhase = ruleEngine.createSWRLRule ("ProtectFrom_PTM_U_DoublePhase","PTM_U(?x) ^ DoublePhase(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PTM_U_TriplePhase = ruleEngine.createSWRLRule ("ProtectFrom_PTM_U_TriplePhase","PTM_U(?x) ^ TriplePhase(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PTO = ruleEngine.createSWRLRule ("ProtectFrom_PTO","PTO(?x) ^ SC(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PTO_T_DoublePhase = ruleEngine.createSWRLRule ("ProtectFrom_PTO_T_DoublePhase","PTO_T(?x) ^ DoublePhase(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PTO_T_TriplePhase = ruleEngine.createSWRLRule ("ProtectFrom_PTO_T_TriplePhase","PTO_T(?x) ^ TriplePhase(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PTP_CurrentOverload = ruleEngine.createSWRLRule ("ProtectFrom_PTP_CurrentOverload","PTP(?x) ^ CurrentOverload(?y) -> ProtectFrom(?x, ?y)");
+        SWRLAPIRule ProtectFrom_PTP_L_CurrentOverload = ruleEngine.createSWRLRule ("ProtectFrom_PTP_L_CurrentOverload","PTP_L(?x) ^ CurrentOverload(?y) -> ProtectFrom(?x, ?y)");
+
+
+        ruleEngine.infer();
+
+        SWRLAPIRule Damage_Bus = ruleEngine.createSWRLRule ("Damage_Bus","SC(?x) ^ Bus(?y) -> Damage(?x, ?y)");
+        SWRLAPIRule Damage_ShortBus = ruleEngine.createSWRLRule ("Damage_ShortBus","SC(?x) ^ ShortBus(?y) -> Damage(?x, ?y)");
+        SWRLAPIRule Damage_YPTR = ruleEngine.createSWRLRule ("Damage_YPTR","SC(?x) ^ YPTR(?y) -> Damage(?x, ?y)");
+        SWRLAPIRule Damage_YPTR_CurrentOverload = ruleEngine.createSWRLRule ("Damage_YPTR_CurrentOverload","CurrentOverload(?x) ^ YPTR(?y) -> Damage(?x, ?y)");
+        SWRLAPIRule Damage_YPTR_Overheat = ruleEngine.createSWRLRule ("Damage_YPTR_Overheat","Overheat(?x) ^ YPTR(?y) -> Damage(?x, ?y)");
+        SWRLAPIRule Damage_YPTR_ReducingOilLevel = ruleEngine.createSWRLRule ("Damage_YPTR_ReducingOilLevel","ReducingOilLevel(?x) ^ YPTR(?y) -> Damage(?x, ?y)");
+        SWRLAPIRule Damage_ZCAB = ruleEngine.createSWRLRule ("Damage_ZCAB","SC(?x) ^ ZCAB(?y) -> Damage(?x, ?y)");
+        SWRLAPIRule Damage_ZLIN = ruleEngine.createSWRLRule ("Damage_ZLIN","SC(?x) ^ ZLIN(?y) -> Damage(?x, ?y)");
+        SWRLAPIRule Damage_ZLIN_CurrentOverload = ruleEngine.createSWRLRule ("Damage_ZLIN_CurrentOverload","CurrentOverload(?x) ^ ZLIN(?y) -> Damage(?x, ?y)");
+        SWRLAPIRule IFL_CAB_rule = ruleEngine.createSWRLRule ("IFL_CAB_rule","ZLIN(?z) ^ hasCN(?z, ?c) ^ ZCAB(?b) ^ hasCN(?b, ?c) -> iflWithCable(?z, 1)");
+
+        ruleEngine.infer();
+
+        out = new FileOutputStream("src\\resources\\PS7.owl");
+
+
+
+      //  out = new FileOutputStream("C:\\Users\\anast\\OneDrive\\Рабочий стол\\magistratura\\project\\ontologies\\ont_pig_10_11.owl");
         manager.saveOntology(ontology, out);
     }
 
